@@ -109,6 +109,16 @@ final class MenusStep extends AbstractStep
             'params' => $pageParams,
         ]);
 
+        // Oculto nos menus: só dá endereços amigáveis aos avisos (/avisos/...)
+        $this->ensureItem('menu:avisos', [
+            'title'  => 'Avisos',
+            'alias'  => 'avisos',
+            'type'   => 'component',
+            'link'   => 'index.php?option=com_content&view=category&layout=blog&id=' . $this->categoryId('avisos'),
+            'component_id' => $contentId,
+            'params' => ['show_page_heading' => 0, 'menu_show' => 0],
+        ]);
+
         // --- Footer: atalhos (tipo "alias") para itens do menu principal ------
         foreach (['sistemas' => [$sistemas, 'Sistemas'], 'ramais' => [$ramais, 'Ramais'],
                   'documentos' => [$documentos, 'Documentos'], 'eventos' => [$eventos, 'Eventos']] as $key => [$target, $title]) {

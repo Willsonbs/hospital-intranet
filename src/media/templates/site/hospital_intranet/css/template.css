@@ -548,7 +548,17 @@ html:not(.js) .site-header {
 }
 
 .hero__alerts {
+  max-width: 44rem;
   margin-top: var(--space-6);
+}
+
+/* Avisos sobre o hero: card claro, texto escuro e links na cor padrão */
+.hero__alerts .alert {
+  box-shadow: var(--shadow-lg);
+}
+
+.masthead .alert a.link-arrow {
+  color: var(--color-primary-light);
 }
 
 @media (min-width: 1024px) {
@@ -626,7 +636,8 @@ html:not(.js) .site-header {
   padding-top: 0;
 }
 
-.is-home .home-section:first-of-type {
+/* 1ª seção logo após o contêiner de mensagens do Joomla */
+.is-home #system-message-container + .home-section {
   position: relative;
   margin-top: calc(-1 * var(--space-8));
 }

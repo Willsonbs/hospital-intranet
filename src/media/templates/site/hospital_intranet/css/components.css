@@ -1058,3 +1058,59 @@ textarea.input {
 .table th.num .sort-btn {
   justify-content: flex-end;
 }
+
+/* --- Faixa do diretório de ramais (dentro do painel de acesso rápido) ---- */
+
+.directory-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-secondary);
+}
+
+.directory-strip__body {
+  flex: 1 1 16rem;
+}
+
+.directory-strip__title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.directory-strip__text {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 639.98px) {
+  .directory-strip .btn {
+    width: 100%;
+  }
+}
+
+/* --- NewsCard sem imagem --------------------------------------------------- */
+
+.news-card__media--empty {
+  display: grid;
+  place-items: center;
+  background: var(--tone-bg);
+  color: var(--tone-fg);
+}
+
+.news-card__media--empty .icon {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+}
+
+/* --- Pilha de avisos ---------------------------------------------------- */
+
+.alert-stack {
+  display: grid;
+  gap: var(--space-3);
+}

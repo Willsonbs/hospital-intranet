@@ -122,7 +122,7 @@ final class FieldsStep extends AbstractStep
             ['sis-icone', 'Ícone', 'list', ['default_value' => 'layout-grid', 'options' => self::ICONES]],
             ['sis-cor', 'Cor do ícone', 'list', ['default_value' => 'teal', 'options' => self::CORES]],
             ['sis-nova-aba', 'Abrir em nova aba', 'radio', ['default_value' => '1', 'options' => $simNao]],
-            ['sis-acesso-rapido', 'Exibir no acesso rápido da página inicial', 'radio', ['default_value' => '0', 'options' => $simNao]],
+            // "Acesso rápido" da home = artigos de Sistemas marcados como Destaque (ordem em Artigos em destaque)
         ], display: 0);
 
         $this->group('evento', 'Evento', 'eventos', [

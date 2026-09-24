@@ -9,6 +9,7 @@ namespace HospitalSantaAurora\Plugin\Console\Intranet\Command;
 
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\AclStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\CategoriesStep;
+use HospitalSantaAurora\Plugin\Console\Intranet\Setup\DemoStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\FieldsStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\MenusStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\ModulesStep;
@@ -21,6 +22,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -39,6 +41,7 @@ final class SetupCommand extends AbstractCommand
     protected function configure(): void
     {
         $this->setDescription('Cria a estrutura da intranet (template, categorias, campos, permissões, menus e módulos)');
+        $this->addOption('demo', null, InputOption::VALUE_NONE, 'Cria também o conteúdo de demonstração (sistemas, notícias, documentos, avisos, eventos)');
         $this->setHelp(
             "Cria o que estiver faltando e mantém o que já existe.\n"
             . "Registros criados aqui têm a nota \"intranet:<chave>\" no painel: não altere essas notas."
@@ -53,8 +56,12 @@ final class SetupCommand extends AbstractCommand
 
         $io->title('Intranet Hospital Santa Aurora — setup');
 
-        // Os models do Joomla registram autor/permissões: executa como o 1º super usuário
-        $app->loadIdentity($this->firstSuperUser($db));
+        // Os models do Joomla registram autor/permissões: executa como o 1º super usuário.
+        // Também na sessão: partes do núcleo ainda usam Factory::getUser(), que lê de lá
+        // (ex.: FieldsHelper::canEditFieldValue — sem isso os campos personalizados não são gravados).
+        $user = $this->firstSuperUser($db);
+        $app->loadIdentity($user);
+        $app->getSession()->set('user', $user);
 
         $steps = [
             new TemplateStep($app, $db, $io),
@@ -65,6 +72,10 @@ final class SetupCommand extends AbstractCommand
             new ModulesStep($app, $db, $io),
             new PanelStep($app, $db, $io),
         ];
+
+        if ($input->getOption('demo')) {
+            $steps[] = new DemoStep($app, $db, $io);
+        }
 
         try {
             foreach ($steps as $step) {

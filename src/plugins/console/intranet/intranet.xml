@@ -11,6 +11,7 @@
 	<files>
 		<folder plugin="intranet">services</folder>
 		<folder>src</folder>
+		<folder>demo</folder>
 	</files>
 	<languages folder="language">
 		<language tag="pt-BR">pt-BR/plg_console_intranet.sys.ini</language>

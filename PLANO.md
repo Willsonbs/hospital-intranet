@@ -38,7 +38,7 @@ Nada fica fixo no template. Cada tipo de conteúdo tem uma fonte administrável:
 |---|---|---|
 | **Notícias** | Articles, categoria `Notícias` com subcategorias (Institucional, Pessoas, Saúde e Bem-estar, Tecnologia, RH, Eventos, Comunicados, TI) + Tags | — (imagem de introdução, data e resumo são nativos) |
 | **Documentos / Protocolos** | Articles, categoria `Biblioteca` com subcategorias por tipo (Protocolos, POPs, Manuais, Formulários, Políticas, Normas, Fluxogramas, Treinamentos, RH, TI) | código, setor responsável, versão, data de revisão, arquivo (campo Media, tipo documento), status (vigente/em revisão/obsoleto), público-alvo |
-| **Sistemas / Acesso rápido** | Articles, categoria `Sistemas` com subcategorias (Assistenciais, Administrativos, RH, Financeiro, TI, BI e Indicadores). Descrição = texto de introdução; ordem, publicado e nível de acesso são nativos | URL, ícone, cor do ícone (paleta fixa), abrir em nova aba, exibir no acesso rápido da home |
+| **Sistemas / Acesso rápido** | Articles, categoria `Sistemas` com subcategorias (Assistenciais, Administrativos, RH, Financeiro, TI, BI e Indicadores). Descrição = texto de introdução; ordem, publicado e nível de acesso são nativos | URL, ícone, cor do ícone (paleta fixa), abrir em nova aba. Acesso rápido da home = artigos em **Destaque**, ordem em "Artigos em destaque" |
 | **Eventos** | Articles, categoria `Eventos` | data, hora, local, responsável, link |
 | **Avisos** | Articles, categoria `Avisos`. Período de exibição = *Início/Fim da publicação* (nativo) | prioridade (info/atenção/crítico), público, setor |
 | **Ramais** | **Componente próprio `com_ramais`** (tabela `#__ramais`) | setor, ramal, localização, status, ordem |
@@ -103,7 +103,7 @@ Seguindo a regra "nativo primeiro", a maior parte dos `mod_hospital_*` da §25 v
 
 | Item da spec | Implementação |
 |---|---|
-| `mod_hospital_quick_access` | `mod_articles` (categoria Sistemas, filtro "exibir na home") + override `quickaccess.php` |
+| `mod_hospital_quick_access` | `mod_articles` (categoria Sistemas, só Destaques, ordem dos destaques) + override `quickaccess.php`, com a faixa "Ramais" (§13.9) |
 | `mod_hospital_news` | `mod_articles` (Notícias, 3 itens) + override `newscards.php` |
 | `mod_hospital_protocols` | `mod_articles` (Biblioteca, mais recentes) + override `protocols.php` |
 | `mod_hospital_alerts` | `mod_articles` (Avisos, respeitando início/fim de publicação) + override `alerts.php`, ordenado por prioridade |
@@ -115,7 +115,7 @@ Seguindo a regra "nativo primeiro", a maior parte dos `mod_hospital_*` da §25 v
 
 | Item | Tipo |
 |---|---|
-| Início | Página inicial com os módulos na ordem da §36: hero (saudação + **avisos**, visíveis sem rolar) → acesso rápido → notícias → protocolos → eventos → footer |
+| Início | Página inicial com os módulos na ordem da §36: hero (saudação + **avisos**, visíveis sem rolar) → acesso rápido → notícias → protocolos → eventos (fase 6) → footer |
 | Sistemas | Categoria Sistemas + override: grupos por subcategoria, cards "Acessar sistema →" |
 | Ramais | `com_ramais`: tabela com `<th scope="col">` ordenável pelo cabeçalho, busca em tempo real (JS) e fallback `?q=` sem JS; vira cards no mobile |
 | Eventos | Página com `mod_hospital_events` no layout de calendário |
@@ -165,12 +165,12 @@ hospital-intranet/
 | 0 | **Infra** ✅ | `scripts/install.sh` sobe o Joomla instalado automaticamente em `http://localhost:8080` |
 | 1 | **Template base** ✅ | Header, menu responsivo, hero com saudação, footer, tokens, página de design system (`/?tmpl=designsystem`), comando `intranet:setup` (template, categorias, menus, módulos) |
 | 2 | **Modelo de conteúdo + ACL** ✅ | Comando `intranet:setup`: categorias, campos, grupos, permissões, menus |
-| 3 | **Home** | Overrides: acesso rápido, notícias, protocolos, avisos |
+| 3 | **Home** ✅ | Overrides: acesso rápido, notícias, protocolos, avisos |
 | 4 | **Ramais** | `com_ramais` (admin + frontend + busca + ordenação + mobile) |
 | 5 | **Sistemas, Documentos, Protocolos, Notícias** | Páginas internas com filtros |
 | 6 | **Eventos** | `mod_hospital_events` (próximos + calendário mensal) |
 | 7 | **Busca global** | Smart Search + `plg_finder_ramais` + página de resultados agrupada |
-| 8 | **Conteúdo demo** | `intranet:setup --demo` |
+| 8 | **Conteúdo demo** (parcial ✅) | `intranet:setup --demo`: sistemas, notícias, documentos, aviso e eventos já existem; faltam ramais (fase 4) |
 | 9 | **Segurança e operação** | Restrição de IP, MFA no admin, tipos de upload (pdf, docx, xlsx, pptx, jpg, png, webp), headers HTTP, Action Logs, política de senhas, backup |
 | 10 | **Documentação** | `docs/` completo, pacote `.zip` instalável em qualquer Joomla 6 |
 

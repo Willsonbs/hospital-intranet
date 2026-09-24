@@ -32,6 +32,12 @@ const widths = { desktop: 1440, tablet: 768, mobile: 390 };
     for (const [label, width] of Object.entries(widths)) {
       await page.setViewport({ width, height: 900 });
       await page.goto(BASE + path, { waitUntil: 'networkidle0' });
+      // Rola até o fim para carregar imagens com loading="lazy"
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
+        window.scrollTo(0, 0);
+      });
+      await page.waitForNetworkIdle({ idleTime: 300 }).catch(() => {});
       await page.screenshot({ path: `${OUT}/${name}-${label}.png`, fullPage: true });
       if (label === 'desktop') {
         await page.evaluate(AXE);

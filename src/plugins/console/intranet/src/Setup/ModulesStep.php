@@ -51,6 +51,8 @@ final class ModulesStep extends AbstractStep
             'showLast' => 1,
         ]);
 
+        $this->homeModules();
+
         $this->ensureModule('mod:footer-menu', [
             'title'     => 'Links úteis',
             'module'    => 'mod_menu',
@@ -61,6 +63,89 @@ final class ModulesStep extends AbstractStep
                 'layout'     => 'hospital_intranet:footer',
                 'startLevel' => 1,
                 'endLevel'   => 1,
+            ],
+        ]);
+    }
+
+    /**
+     * Seções da página inicial: módulos "Artigos" (mod_articles) com layouts do template.
+     * O título "Rótulo | Título" vira o rótulo pequeno + título da seção (chrome "section").
+     */
+    private function homeModules(): void
+    {
+        $base = [
+            'mode'                         => 'normal',
+            'category_filtering_type'      => 1,
+            'show_child_category_articles' => 1,
+            'levels'                       => 5,
+            'item_title'                   => 1,
+            'link_titles'                  => 1,
+            'trigger_events'               => 0,
+        ];
+
+        $this->ensureModule('mod:alerts', [
+            'title'     => 'Avisos importantes',
+            'module'    => 'mod_articles',
+            'position'  => 'alerts',
+            'showtitle' => 0,
+            'params'    => $base + [
+                'catid'                      => [$this->categoryId('avisos')],
+                'count'                      => 3,
+                'article_ordering'           => 'publish_up',
+                'article_ordering_direction' => 'DESC',
+                'show_introtext'             => 1,
+                'introtext_limit'            => 0,
+                'layout'                     => 'hospital_intranet:alerts',
+            ],
+        ]);
+
+        $this->ensureModule('mod:quick-access', [
+            'title'     => 'Acesso rápido | Sistemas e ferramentas',
+            'module'    => 'mod_articles',
+            'position'  => 'quick-access',
+            'showtitle' => 1,
+            'params'    => $base + [
+                'catid'                      => [$this->categoryId('sistemas')],
+                'count'                      => 0,
+                'show_featured'              => 'only',
+                'article_ordering'           => 'fp.ordering',
+                'article_ordering_direction' => 'ASC',
+                'layout'                     => 'hospital_intranet:quickaccess',
+                'moduleclass_sfx'            => 'quick-panel',
+            ],
+        ]);
+
+        $this->ensureModule('mod:news', [
+            'title'     => 'Fique por dentro | Últimas notícias',
+            'module'    => 'mod_articles',
+            'position'  => 'news',
+            'showtitle' => 1,
+            'params'    => $base + [
+                'catid'                      => [$this->categoryId('noticias')],
+                'count'                      => 3,
+                'article_ordering'           => 'publish_up',
+                'article_ordering_direction' => 'DESC',
+                'img_intro_full'             => 'intro',
+                'show_category'              => 1,
+                'show_date'                  => 1,
+                'show_date_field'            => 'publish_up',
+                'show_introtext'             => 1,
+                'introtext_limit'            => 140,
+                'layout'                     => 'hospital_intranet:news',
+            ],
+        ]);
+
+        $this->ensureModule('mod:protocols', [
+            'title'     => 'Biblioteca institucional | Últimos protocolos adicionados',
+            'module'    => 'mod_articles',
+            'position'  => 'protocols',
+            'showtitle' => 1,
+            'params'    => $base + [
+                'catid'                      => [$this->categoryId('biblioteca/protocolos'), $this->categoryId('biblioteca/pops')],
+                'count'                      => 4,
+                'article_ordering'           => 'publish_up',
+                'article_ordering_direction' => 'DESC',
+                'layout'                     => 'hospital_intranet:protocols',
             ],
         ]);
     }

@@ -13,7 +13,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 require __DIR__ . '/partials/bootstrap.php';
 
+// Erros de PHP (Throwable) têm código 0: exibe como 500
 $errorCode = (int) $this->error->getCode();
+$errorCode = $errorCode >= 400 && $errorCode < 600 ? $errorCode : 500;
 $isNotFound = $errorCode === 404;
 
 // Em erros graves a aplicação pode não estar completa: não renderiza módulos

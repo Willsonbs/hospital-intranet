@@ -56,7 +56,7 @@ Os campos aparecem no formulário do artigo conforme a categoria escolhida.
 | Categoria | Campos |
 |---|---|
 | Biblioteca (e subcategorias) | Código, Versão, Status, Setor responsável, Data de revisão, Público-alvo, Arquivo |
-| Sistemas (e subcategorias) | Endereço (URL), Ícone, Cor do ícone, Abrir em nova aba, Exibir no acesso rápido da página inicial |
+| Sistemas (e subcategorias) | Endereço (URL), Ícone, Cor do ícone, Abrir em nova aba. O **acesso rápido** da página inicial mostra os sistemas marcados como **Destaque** (estrela), na ordem de *Conteúdo → Artigos em destaque*. |
 | Eventos | Início, Término, Local, Responsável, Link |
 | Avisos | Prioridade, Público, Setor. O período de exibição é o **Início/Fim da publicação** do próprio artigo. |
 | Notícias | nenhum. Usam imagem de introdução, categoria e tags do Joomla. |

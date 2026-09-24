@@ -12,7 +12,8 @@ Plano do projeto e decisões: [PLANO.md](PLANO.md).
 ## Instalação
 
 ```bash
-scripts/install.sh
+scripts/install.sh           # estrutura vazia, pronta para receber conteúdo
+scripts/install.sh --demo    # + conteúdo de demonstração (sistemas, notícias, protocolos, aviso, eventos)
 ```
 
 O script:
@@ -36,9 +37,10 @@ Pode ser executado de novo sem problema: cada passo verifica se já foi feito.
 ## Comandos úteis
 
 ```bash
-scripts/reset.sh                 # apaga banco e arquivos e reinstala do zero (pede confirmação)
+scripts/reset.sh [--demo]        # apaga banco e arquivos e reinstala do zero (pede confirmação)
 scripts/visual-check.sh          # screenshots desktop/tablet/mobile + axe (acessibilidade) em var/visual/
 scripts/build-icons.sh           # regenera o sprite de ícones a partir de scripts/icons.txt
+scripts/build-demo-images.py     # regenera as imagens abstratas do conteúdo de demonstração
 docker compose exec -u www-data joomla php cli/joomla.php intranet:setup        # recria o que faltar
 docker compose exec -u www-data joomla php cli/joomla.php intranet:acl-report   # permissões dos papéis
 tests/acl/login-test.sh          # testa o painel com login real de cada papel
@@ -67,5 +69,18 @@ var/                          pacotes baixados, screenshots (ignorado)
 
 Catálogo de componentes e estados: http://localhost:8080/?tmpl=designsystem.
 Tokens (cores, fontes, espaçamentos) ficam em `src/media/templates/site/hospital_intranet/css/variables.css`.
+
+## Página inicial
+
+As seções da home são módulos **Artigos** (Conteúdo → Módulos do site) com layouts do template:
+
+| Seção | Posição | Conteúdo |
+|---|---|---|
+| Avisos importantes (no topo) | `alerts` | Categoria Avisos, dentro do período de publicação; ordenados por prioridade |
+| Acesso rápido | `quick-access` | Sistemas marcados como **Destaque**; a ordem é a de *Artigos em destaque* |
+| Últimas notícias | `news` | 3 mais recentes da categoria Notícias |
+| Últimos protocolos | `protocols` | 4 mais recentes de Protocolos e POPs |
+
+No título do módulo, o texto antes de `|` vira o rótulo pequeno da seção: `Fique por dentro | Últimas notícias`.
 
 Registros criados pelo `intranet:setup` têm a nota `intranet:<chave>` no painel. **Não altere essas notas**: é por elas que o setup reconhece o que já existe.

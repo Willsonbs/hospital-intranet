@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 # Sobe o ambiente e deixa o Joomla instalado e configurado.
 # Idempotente: pode ser executado de novo a qualquer momento.
+# Uso: scripts/install.sh [--demo]   (--demo cria conteúdo de demonstração)
 set -euo pipefail
+
+SETUP_ARGS=()
+for arg in "$@"; do
+    case "$arg" in
+        --demo) SETUP_ARGS+=(--demo) ;;
+        *) echo "Opção desconhecida: $arg" >&2; exit 2 ;;
+    esac
+done
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
@@ -117,7 +126,7 @@ fi
 # --- 7. Estrutura da intranet (template, categorias, menus, módulos) ---------
 if [[ "$(sql "SELECT enabled FROM ${DB_PREFIX}extensions WHERE type='plugin' AND folder='console' AND element='intranet'")" == "1" ]]; then
     log "Criando a estrutura da intranet"
-    jcli intranet:setup
+    jcli intranet:setup "${SETUP_ARGS[@]}"
 fi
 
 jcli cache:clean >/dev/null 2>&1 || true
