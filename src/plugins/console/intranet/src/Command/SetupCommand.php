@@ -11,6 +11,7 @@ use HospitalSantaAurora\Plugin\Console\Intranet\Setup\AclStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\CategoriesStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\DemoStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\FieldsStep;
+use HospitalSantaAurora\Plugin\Console\Intranet\Setup\MediaStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\MenusStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\ModulesStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\PanelStep;
@@ -68,6 +69,7 @@ final class SetupCommand extends AbstractCommand
             new CategoriesStep($app, $db, $io),
             new FieldsStep($app, $db, $io),
             new AclStep($app, $db, $io),
+            new MediaStep($app, $db, $io),
             new MenusStep($app, $db, $io),
             new ModulesStep($app, $db, $io),
             new PanelStep($app, $db, $io),

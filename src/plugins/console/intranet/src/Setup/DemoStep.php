@@ -16,7 +16,7 @@ use Joomla\Filesystem\Folder;
  * Conteúdo de demonstração (§31 da especificação). Só roda com --demo.
  *
  * Todo item criado aqui tem a nota "intranet:demo:<chave>". As imagens são
- * ilustrações provisórias (scripts/build-demo-images.py).
+ * ilustrações provisórias e PDFs de exemplo (scripts/build-demo-assets.py).
  */
 final class DemoStep extends AbstractStep
 {
@@ -34,12 +34,30 @@ final class DemoStep extends AbstractStep
         \defined('JPATH_COMPONENT') || \define('JPATH_COMPONENT', JPATH_ADMINISTRATOR . '/components/com_content');
 
         $this->copyImages();
+        $this->copyFiles();
         $this->systems();
         $this->news();
         $this->documents();
         $this->alerts();
         $this->events();
         $this->ramais();
+    }
+
+    /** PDFs de exemplo da Biblioteca → images/documentos/demo */
+    private function copyFiles(): void
+    {
+        $source = \dirname(__DIR__, 2) . '/demo/files';
+        $target = JPATH_ROOT . '/images/documentos/demo';
+
+        if (!is_dir($target)) {
+            Folder::create($target);
+        }
+
+        foreach (glob($source . '/*.pdf') as $file) {
+            if (!is_file($target . '/' . basename($file))) {
+                copy($file, $target . '/' . basename($file));
+            }
+        }
     }
 
     private function copyImages(): void
@@ -147,6 +165,10 @@ final class DemoStep extends AbstractStep
                 'introtext'  => "<p>Documento institucional de demonstração: $title.</p>",
                 'publish_up' => $this->daysFromNow(-$daysAgo, '08:00'),
                 'com_fields' => [
+                    // FOR-RH-010 fica sem arquivo de propósito: mostra o estado "arquivo não disponível"
+                    'doc-arquivo' => is_file(JPATH_ROOT . '/images/documentos/demo/' . strtolower($code) . '.pdf')
+                        ? ['file' => 'images/documentos/demo/' . strtolower($code) . '.pdf', 'linktext' => '']
+                        : [],
                     'doc-codigo'  => $code,
                     'doc-versao'  => $version,
                     'doc-status'  => $status,

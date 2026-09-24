@@ -167,7 +167,7 @@ hospital-intranet/
 | 2 | **Modelo de conteúdo + ACL** ✅ | Comando `intranet:setup`: categorias, campos, grupos, permissões, menus |
 | 3 | **Home** ✅ | Overrides: acesso rápido, notícias, protocolos, avisos |
 | 4 | **Ramais** ✅ | `com_ramais` (admin + frontend + busca + ordenação + mobile) |
-| 5 | **Sistemas, Documentos, Protocolos, Notícias** | Páginas internas com filtros |
+| 5 | **Sistemas, Documentos, Protocolos, Notícias** ✅ | Páginas internas com filtros |
 | 6 | **Eventos** | `mod_hospital_events` (próximos + calendário mensal) |
 | 7 | **Busca global** | Smart Search + `plg_finder_ramais` + página de resultados agrupada |
 | 8 | **Conteúdo demo** (parcial ✅) | `intranet:setup --demo`: sistemas, notícias, documentos, aviso, eventos e 25 ramais |

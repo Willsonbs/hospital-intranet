@@ -11,6 +11,10 @@ const pages = [
   ['home', '/'],
   ['sistemas', '/sistemas'],
   ['ramais', '/ramais'],
+  ['noticias', '/noticias'],
+  ['documentos', '/documentos'],
+  ['documento', '/documentos/pops/administracao-segura-de-medicamentos'],
+  ['noticia', '/noticias/institucional/hospital-recebe-certificacao-de-qualidade-nacional'],
   ['designsystem', '/?tmpl=designsystem'],
   ['404', '/pagina-inexistente'],
 ];
@@ -22,6 +26,8 @@ const widths = { desktop: 1440, tablet: 768, mobile: 390 };
     args: ['--no-sandbox', '--disable-dev-shm-usage'],
   });
   const page = await browser.newPage();
+  // Sem animações: screenshots estáveis (o CSS respeita prefers-reduced-motion)
+  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
   const errors = [];
   // Ignora avisos esperados no teste: COOP em HTTP e o próprio status 404 da página de erro
   const ignored = /Cross-Origin-Opener-Policy|status of 404/;
@@ -91,6 +97,31 @@ const widths = { desktop: 1440, tablet: 768, mobile: 390 };
   await page.screenshot({ path: `${OUT}/ramais-vazio.png` });
   ['digitando', 'limpo', 'ordenadoRamal', 'ordenadoRamalDesc', 'semResultado'].forEach((k) => { dir[k].visible = `${dir[k].visible.length} linhas: ${dir[k].visible.slice(0, 3).join(', ')}`; });
 
-  fs.writeFileSync(`${OUT}/report.json`, JSON.stringify({ axe: report, consoleErrors: errors, searchFocus: focused, ramais: dir }, null, 2));
+  // Documentos: filtros combinados (tipo + busca) e status
+  const docs = {};
+  const docState = () => page.evaluate(() => ({
+    count: document.querySelector('[data-filter-count]').textContent.trim(),
+    visible: [...document.querySelectorAll('[data-filter-item]')].filter((li) => !li.hidden).map((li) => li.querySelector('.document-card__code')?.textContent.trim()).join(', '),
+    url: location.search,
+  }));
+  await page.goto(BASE + '/documentos', { waitUntil: 'networkidle0' });
+  docs.inicial = await docState();
+  await page.type('[data-filter="q"]', 'medicamentos');
+  await new Promise((r) => setTimeout(r, 300));
+  docs.busca = await docState();
+  const popsValue = await page.$eval('[data-filter="tipo"]', (sel) => [...sel.options].find((o) => o.textContent.trim() === 'POPs').value);
+  await page.select('[data-filter="tipo"]', popsValue);
+  await new Promise((r) => setTimeout(r, 200));
+  docs.buscaEPops = await docState();
+  await page.screenshot({ path: `${OUT}/documentos-filtro.png` });
+  await page.goto(BASE + '/documentos', { waitUntil: 'networkidle0' });
+  await page.select('[data-filter="status"]', 'em-revisao');
+  await new Promise((r) => setTimeout(r, 200));
+  docs.emRevisao = await docState();
+  await page.goto(BASE + '/protocolos', { waitUntil: 'networkidle0' });
+  docs.protocolos = await docState();
+  docs.protocolosTipos = await page.$$eval('[data-filter="tipo"] option', (os) => os.map((o) => o.textContent.trim()).join(' | '));
+
+  fs.writeFileSync(`${OUT}/report.json`, JSON.stringify({ axe: report, consoleErrors: errors, searchFocus: focused, ramais: dir, documentos: docs }, null, 2));
   await browser.close();
 })().catch((e) => { console.error(e); process.exit(1); });

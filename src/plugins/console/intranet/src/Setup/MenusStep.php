@@ -43,25 +43,38 @@ final class MenusStep extends AbstractStep
         $pageParams = ['show_page_heading' => 0, 'menu_show' => 1];
 
         // --- Menu principal ---------------------------------------------------
+        // Páginas de categoria usam o layout "blog" do Joomla com os overrides do template
+        // (html/com_content/category/blog_*.php), incluindo artigos das subcategorias.
+        $blog = $pageParams + [
+            'show_subcategory_content' => -1,
+            'num_leading_articles'     => 0,
+            'num_links'                => 0,
+            'show_category_title'      => 0,
+            'show_description'         => 1,
+        ];
+        $systemsParams = $blog + ['num_intro_articles' => 500, 'orderby_pri' => 'order', 'orderby_sec' => 'order', 'show_pagination' => 0];
+        $libraryParams = $blog + ['num_intro_articles' => 1000, 'orderby_pri' => 'none', 'orderby_sec' => 'alpha', 'show_pagination' => 0];
+        $categoryBlog  = fn (string $key) => 'index.php?option=com_content&view=category&layout=blog&id=' . $this->categoryId($key);
+
         $sistemas = $this->ensureItem('menu:sistemas', [
-            'title'  => 'Sistemas',
-            'alias'  => 'sistemas',
-            'type'   => 'component',
-            'link'   => 'index.php?option=com_content&view=categories&id=' . $this->categoryId('sistemas'),
+            'title'        => 'Sistemas',
+            'alias'        => 'sistemas',
+            'type'         => 'component',
+            'link'         => $categoryBlog('sistemas'),
             'component_id' => $contentId,
-            'params' => $pageParams + ['show_base_description' => 0, 'maxLevelcat' => 1],
-        ]);
+            'params'       => $systemsParams,
+        ], rev: 2);
 
         foreach (CategoriesStep::TREE['sistemas'][1] as $alias => $title) {
             $this->ensureItem('menu:sistemas/' . $alias, [
-                'title'     => $title,
-                'alias'     => $alias,
-                'parent_id' => $sistemas,
-                'type'      => 'component',
-                'link'      => 'index.php?option=com_content&view=category&id=' . $this->categoryId('sistemas/' . $alias),
+                'title'        => $title,
+                'alias'        => $alias,
+                'parent_id'    => $sistemas,
+                'type'         => 'component',
+                'link'         => $categoryBlog('sistemas/' . $alias),
                 'component_id' => $contentId,
-                'params'    => $pageParams + ['menu_icon_css' => self::SYSTEM_ICONS[$alias] ?? ''],
-            ], "Sistemas › $title");
+                'params'       => $systemsParams + ['menu_icon_css' => self::SYSTEM_ICONS[$alias] ?? ''],
+            ], "Sistemas › $title", rev: 2);
         }
 
         $ramais = $this->ensureRamais();
@@ -75,32 +88,42 @@ final class MenusStep extends AbstractStep
             'params' => $pageParams,
         ]);
 
+        // Protocolos = Biblioteca filtrada em Protocolos + POPs (opção do plugin Sistema - Intranet)
         $this->ensureItem('menu:protocolos', [
-            'title'  => 'Protocolos',
-            'alias'  => 'protocolos',
-            'type'   => 'component',
-            'link'   => 'index.php?option=com_content&view=category&id=' . $this->categoryId('biblioteca/protocolos'),
+            'title'        => 'Protocolos',
+            'alias'        => 'protocolos',
+            'type'         => 'component',
+            'link'         => $categoryBlog('biblioteca'),
             'component_id' => $contentId,
-            'params' => $pageParams,
-        ]);
+            'params'       => $libraryParams + [
+                'intranet_categorias' => [$this->categoryId('biblioteca/protocolos'), $this->categoryId('biblioteca/pops')],
+            ],
+        ], rev: 2);
 
         $this->ensureItem('menu:noticias', [
-            'title'  => 'Notícias',
-            'alias'  => 'noticias',
-            'type'   => 'component',
-            'link'   => 'index.php?option=com_content&view=category&layout=blog&id=' . $this->categoryId('noticias'),
+            'title'        => 'Notícias',
+            'alias'        => 'noticias',
+            'type'         => 'component',
+            'link'         => $categoryBlog('noticias'),
             'component_id' => $contentId,
-            'params' => $pageParams,
-        ]);
+            'params'       => $blog + [
+                'num_intro_articles'      => 9,
+                'orderby_pri'             => 'none',
+                'orderby_sec'             => 'rdate',
+                'order_date'              => 'published',
+                'show_pagination'         => 2,
+                'show_pagination_results' => 1,
+            ],
+        ], rev: 2);
 
         $documentos = $this->ensureItem('menu:documentos', [
-            'title'  => 'Documentos',
-            'alias'  => 'documentos',
-            'type'   => 'component',
-            'link'   => 'index.php?option=com_content&view=category&id=' . $this->categoryId('biblioteca'),
+            'title'        => 'Documentos',
+            'alias'        => 'documentos',
+            'type'         => 'component',
+            'link'         => $categoryBlog('biblioteca'),
             'component_id' => $contentId,
-            'params' => $pageParams,
-        ]);
+            'params'       => $libraryParams,
+        ], rev: 2);
 
         // Oculto nos menus: só dá endereços amigáveis aos avisos (/avisos/...)
         $this->ensureItem('menu:avisos', [
@@ -169,6 +192,33 @@ final class MenusStep extends AbstractStep
         return $id;
     }
 
+    private function upgradeItem(int $id, array $item, int $rev, string $label): void
+    {
+        $row = $this->db->setQuery(
+            $this->db->getQuery(true)
+                ->select($this->db->quoteName(['params']))
+                ->from($this->db->quoteName('#__menu'))
+                ->where($this->db->quoteName('id') . ' = ' . $id)
+        )->loadObject();
+
+        $params = json_decode($row->params ?: '{}', true) ?: [];
+
+        if ((int) ($params['intranet_rev'] ?? 0) >= $rev) {
+            $this->exists($label);
+
+            return;
+        }
+
+        $this->update('#__menu', $id, [
+            'type'         => $item['type'],
+            'link'         => $item['link'],
+            'component_id' => (int) ($item['component_id'] ?? 0),
+            'params'       => json_encode(array_merge($params, $item['params']), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+        ]);
+
+        $this->changed("$label: configuração atualizada (revisão $rev)");
+    }
+
     private function ensureMenuType(string $menutype, string $title, string $description): void
     {
         $query = $this->db->getQuery(true)
@@ -220,12 +270,21 @@ final class MenusStep extends AbstractStep
         $this->changed('Início (página inicial)');
     }
 
-    private function ensureItem(string $key, array $item, ?string $label = null): int
+    /**
+     * Cria o item (nota "intranet:<chave>") ou, se já existe e $rev é maior que a revisão
+     * gravada em params.intranet_rev, reaplica link e parâmetros desta versão do setup.
+     * Depois de atualizado, ajustes feitos no painel são mantidos nas próximas execuções.
+     */
+    private function ensureItem(string $key, array $item, ?string $label = null, int $rev = 0): int
     {
         $label ??= $item['title'];
 
+        if ($rev > 0) {
+            $item['params'] = ($item['params'] ?? []) + ['intranet_rev' => $rev];
+        }
+
         if ($id = $this->findByNote('#__menu', $key, ['client_id' => 0])) {
-            $this->exists($label);
+            $rev > 0 ? $this->upgradeItem($id, $item, $rev, $label) : $this->exists($label);
 
             return $id;
         }

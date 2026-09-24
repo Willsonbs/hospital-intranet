@@ -40,7 +40,7 @@ Pode ser executado de novo sem problema: cada passo verifica se já foi feito.
 scripts/reset.sh [--demo]        # apaga banco e arquivos e reinstala do zero (pede confirmação)
 scripts/visual-check.sh          # screenshots desktop/tablet/mobile + axe (acessibilidade) em var/visual/
 scripts/build-icons.sh           # regenera o sprite de ícones a partir de scripts/icons.txt
-scripts/build-demo-images.py     # regenera as imagens abstratas do conteúdo de demonstração
+scripts/build-demo-assets.py     # regenera as imagens e os PDFs do conteúdo de demonstração
 docker compose exec -u www-data joomla php cli/joomla.php intranet:setup        # recria o que faltar
 docker compose exec -u www-data joomla php cli/joomla.php intranet:acl-report   # permissões dos papéis
 tests/acl/login-test.sh          # testa o painel com login real de cada papel
@@ -84,6 +84,25 @@ As seções da home são módulos **Artigos** (Conteúdo → Módulos do site) c
 | Últimos protocolos | `protocols` | 4 mais recentes de Protocolos e POPs |
 
 No título do módulo, o texto antes de `|` vira o rótulo pequeno da seção: `Fique por dentro | Últimas notícias`.
+
+## Páginas internas
+
+As páginas de categoria e de artigo usam overrides do template, escolhidos pela **seção** da categoria. A seção é identificada pela nota `intranet:cat:*` da categoria raiz, então renomear uma categoria não muda o layout.
+
+| Página | Menu | O que mostra |
+|---|---|---|
+| Sistemas | `/sistemas` | Cards agrupados por subcategoria, com busca e botão "Acessar sistema" |
+| Notícias | `/noticias` | Abas por categoria, cards e paginação (9 por página) |
+| Documentos | `/documentos` | Biblioteca inteira com busca (código, título, assunto) e filtros por tipo, setor e status |
+| Protocolos | `/protocolos` | A mesma biblioteca, só com Protocolos e POPs |
+| Documento | — | Ficha com "Baixar documento", status, versão, setor, datas e público-alvo |
+| Notícia | — | Categoria, data, imagem e texto |
+
+Os itens de menu de categoria têm, na aba **Intranet**, a opção **Mostrar só estas subcategorias**, adicionada pelo plugin *Sistema - Intranet*. É com ela que o item Protocolos mostra só Protocolos + POPs.
+
+Os filtros e buscas funcionam em tempo real, com JavaScript, ou pelo servidor, sem JavaScript, pelos parâmetros `?q=&tipo=&setor=&status=`.
+
+**Arquivos da Biblioteca:** envie pelo Gerenciador de Mídia para `images/documentos` e escolha o arquivo no campo **Arquivo** do documento.
 
 ## Diretório de ramais
 
