@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>mod_hospital_protocols</name>
+	<version>0.1.0</version>
+	<creationDate>2026-09</creationDate>
+	<author>Intranet Hospitalar</author>
+	<copyright>(C) 2026 Intranet Hospitalar</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>MOD_HOSPITAL_PROTOCOLS_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_hospital_protocols">mod_hospital_protocols.php</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+		<folder>language</folder>
+	</files>
+	<languages folder="language">
+		<language tag="pt-BR">pt-BR/mod_hospital_protocols.ini</language>
+		<language tag="pt-BR">pt-BR/mod_hospital_protocols.sys.ini</language>
+		<language tag="en-GB">en-GB/mod_hospital_protocols.ini</language>
+		<language tag="en-GB">en-GB/mod_hospital_protocols.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="catids" type="category" extension="com_documentos" multiple="true" layout="joomla.form.field.list-fancy-select"
+					label="MOD_HOSPITAL_PROTOCOLS_CATEGORIES" description="MOD_HOSPITAL_PROTOCOLS_CATEGORIES_DESC" />
+				<field name="count" type="number" default="4" min="1" max="20" filter="integer" label="MOD_HOSPITAL_PROTOCOLS_COUNT" />
+			</fieldset>
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" class="form-select" validate="moduleLayout" />
+				<field name="moduleclass_sfx" type="textarea" rows="2" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" validate="CssIdentifier" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

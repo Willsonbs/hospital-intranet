@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>com_documentos</name>
+	<version>0.1.0</version>
+	<creationDate>2026-09</creationDate>
+	<author>Intranet Hospitalar</author>
+	<copyright>(C) 2026 Intranet Hospitalar</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>COM_DOCUMENTOS_XML_DESCRIPTION</description>
+	<namespace path="src">Hospital\Component\Documentos</namespace>
+
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<files folder="site">
+		<folder>language</folder>
+		<folder>layouts</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+
+	<administration>
+		<menu img="class:file-alt">COM_DOCUMENTOS</menu>
+		<submenu>
+			<menu link="option=com_documentos&amp;view=documentos" view="documentos">COM_DOCUMENTOS_SUBMENU_DOCUMENTOS</menu>
+			<menu link="option=com_categories&amp;extension=com_documentos" view="categories">COM_DOCUMENTOS_SUBMENU_CATEGORIES</menu>
+		</submenu>
+		<files folder="administrator">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>documentos.xml</filename>
+			<folder>forms</folder>
+			<folder>language</folder>
+			<folder>services</folder>
+			<folder>sql</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
+		</files>
+	</administration>
+</extension>

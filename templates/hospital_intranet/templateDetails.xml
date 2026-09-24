@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="template" client="site" method="upgrade">
+	<name>hospital_intranet</name>
+	<version>0.1.0</version>
+	<creationDate>2026-09</creationDate>
+	<author>Intranet Hospitalar</author>
+	<copyright>(C) 2026 Intranet Hospitalar</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>Template da Intranet Hospitalar: portal corporativo responsivo e acessível.</description>
+	<files>
+		<filename>index.php</filename>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>offline.php</filename>
+		<filename>templateDetails.xml</filename>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>images</folder>
+		<folder>html</folder>
+		<folder>language</folder>
+	</files>
+	<positions>
+		<position>header</position>
+		<position>mainmenu</position>
+		<position>hero</position>
+		<position>quick-access</position>
+		<position>alerts</position>
+		<position>news</position>
+		<position>protocols</position>
+		<position>events</position>
+		<position>sidebar</position>
+		<position>footer</position>
+		<position>footer-menu</position>
+	</positions>
+	<languages folder="language">
+		<language tag="pt-BR">pt-BR/tpl_hospital_intranet.ini</language>
+		<language tag="pt-BR">pt-BR/tpl_hospital_intranet.sys.ini</language>
+		<language tag="en-GB">en-GB/tpl_hospital_intranet.ini</language>
+		<language tag="en-GB">en-GB/tpl_hospital_intranet.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="brand" label="Identidade">
+				<field name="logoFile" type="media" label="Logo (opcional)" description="Substitui o ícone padrão da cruz." />
+				<field name="brandLine1" type="text" default="Intranet" label="Marca — linha 1" filter="string" />
+				<field name="brandLine2" type="text" default="Hospitalar" label="Marca — linha 2" filter="string" />
+				<field name="institutionName" type="text" default="Hospital Santa Aurora" label="Nome da instituição (rodapé)" filter="string" />
+			</fieldset>
+			<fieldset name="hero" label="Boas-vindas">
+				<field name="heroEyebrow" type="text" default="Intranet corporativa" label="Rótulo superior" filter="string" />
+				<field name="heroSubtitle" type="textarea" default="Tudo o que você precisa para cuidar de quem importa, em um só lugar." label="Subtítulo" filter="string" />
+				<field name="heroImage" type="media" label="Imagem de fundo" description="Foto discreta do hospital; recebe uma camada azul-petróleo por cima para manter a leitura." />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+	<name>mod_hospital_quick_access</name>
+	<version>0.1.0</version>
+	<creationDate>2026-09</creationDate>
+	<author>Intranet Hospitalar</author>
+	<copyright>(C) 2026 Intranet Hospitalar</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>MOD_HOSPITAL_QUICK_ACCESS_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_hospital_quick_access">mod_hospital_quick_access.php</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+		<folder>language</folder>
+	</files>
+	<languages folder="language">
+		<language tag="pt-BR">pt-BR/mod_hospital_quick_access.ini</language>
+		<language tag="pt-BR">pt-BR/mod_hospital_quick_access.sys.ini</language>
+		<language tag="en-GB">en-GB/mod_hospital_quick_access.ini</language>
+		<language tag="en-GB">en-GB/mod_hospital_quick_access.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="items"
+					type="subform"
+					label="MOD_HOSPITAL_QUICK_ACCESS_ITEMS"
+					description="MOD_HOSPITAL_QUICK_ACCESS_ITEMS_DESC"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable"
+					buttons="add,remove,move"
+					min="0"
+				>
+					<form>
+						<field name="published" type="radio" layout="joomla.form.field.radio.switcher" default="1" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_PUBLISHED">
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
+						</field>
+						<field name="title" type="text" required="true" filter="string" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_TITLE" />
+						<field name="description" type="text" filter="string" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_DESCRIPTION" />
+						<field name="url" type="url" required="true" filter="url" validate="url" relative="true" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_URL" description="MOD_HOSPITAL_QUICK_ACCESS_ITEM_URL_DESC" />
+						<field name="icon" type="text" default="fa-solid fa-link" filter="string" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_ICON" description="MOD_HOSPITAL_QUICK_ACCESS_ITEM_ICON_DESC" />
+						<field name="tone" type="list" default="green" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_TONE">
+							<option value="blue">MOD_HOSPITAL_QUICK_ACCESS_TONE_BLUE</option>
+							<option value="green">MOD_HOSPITAL_QUICK_ACCESS_TONE_GREEN</option>
+							<option value="purple">MOD_HOSPITAL_QUICK_ACCESS_TONE_PURPLE</option>
+							<option value="orange">MOD_HOSPITAL_QUICK_ACCESS_TONE_ORANGE</option>
+							<option value="slate">MOD_HOSPITAL_QUICK_ACCESS_TONE_SLATE</option>
+							<option value="red">MOD_HOSPITAL_QUICK_ACCESS_TONE_RED</option>
+						</field>
+						<field name="category" type="text" filter="string" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_CATEGORY" description="MOD_HOSPITAL_QUICK_ACCESS_ITEM_CATEGORY_DESC" />
+						<field name="new_tab" type="radio" layout="joomla.form.field.radio.switcher" default="0" label="MOD_HOSPITAL_QUICK_ACCESS_ITEM_NEW_TAB">
+							<option value="0">JNO</option>
+							<option value="1">JYES</option>
+						</field>
+						<field name="access" type="accesslevel" default="1" label="JFIELD_ACCESS_LABEL" />
+					</form>
+				</field>
+				<field name="category_filter" type="text" filter="string" label="MOD_HOSPITAL_QUICK_ACCESS_CATEGORY_FILTER" description="MOD_HOSPITAL_QUICK_ACCESS_CATEGORY_FILTER_DESC" />
+				<field name="category_order" type="textarea" rows="6" filter="string" showon="layout:_:catalog"
+					default="Assistenciais&#10;Administrativos&#10;Recursos Humanos&#10;Financeiro&#10;TI&#10;BI e Indicadores"
+					label="MOD_HOSPITAL_QUICK_ACCESS_CATEGORY_ORDER" description="MOD_HOSPITAL_QUICK_ACCESS_CATEGORY_ORDER_DESC" />
+			</fieldset>
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" class="form-select" validate="moduleLayout" />
+				<field name="moduleclass_sfx" type="textarea" rows="2" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" validate="CssIdentifier" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

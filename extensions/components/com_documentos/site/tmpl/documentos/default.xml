@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_DOCUMENTOS_VIEW_DEFAULT_TITLE">
+		<message>COM_DOCUMENTOS_VIEW_DEFAULT_DESC</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic" label="COM_DOCUMENTOS_MENU_OPTIONS">
+			<field name="catids" type="category" extension="com_documentos" multiple="true" layout="joomla.form.field.list-fancy-select"
+				label="COM_DOCUMENTOS_MENU_CATEGORIES" description="COM_DOCUMENTOS_MENU_CATEGORIES_DESC" />
+			<field name="intro" type="textarea" rows="2" filter="string" label="COM_DOCUMENTOS_MENU_INTRO" />
+		</fieldset>
+	</fields>
+</metadata>

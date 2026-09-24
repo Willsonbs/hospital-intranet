@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id" type="hidden" default="0" />
+		<field name="setor" type="text" required="true" maxlength="150" filter="string" label="COM_RAMAIS_FIELD_SETOR" hint="COM_RAMAIS_FIELD_SETOR_HINT" />
+		<field name="ramal" type="text" required="true" maxlength="20" filter="string" pattern="[0-9 ()+\-/]+" label="COM_RAMAIS_FIELD_RAMAL" hint="COM_RAMAIS_FIELD_RAMAL_HINT" />
+		<field name="localizacao" type="text" maxlength="150" filter="string" label="COM_RAMAIS_FIELD_LOCALIZACAO" hint="COM_RAMAIS_FIELD_LOCALIZACAO_HINT" />
+		<field name="state" type="list" default="1" filter="intval" label="COM_RAMAIS_FIELD_STATUS" class="form-select-color-state" validate="options">
+			<option value="1">COM_RAMAIS_STATUS_ACTIVE</option>
+			<option value="0">COM_RAMAIS_STATUS_INACTIVE</option>
+		</field>
+		<field name="ordering" type="number" default="0" filter="integer" label="COM_RAMAIS_FIELD_ORDERING" description="COM_RAMAIS_FIELD_ORDERING_DESC" />
+	</fieldset>
+</form>

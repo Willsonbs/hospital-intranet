@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field name="search" type="text" inputmode="search" label="COM_RAMAIS_FILTER_SEARCH" hint="JSEARCH_FILTER" />
+		<field name="state" type="list" onchange="this.form.submit();" label="COM_RAMAIS_FIELD_STATUS">
+			<option value="">COM_RAMAIS_FILTER_STATUS</option>
+			<option value="1">COM_RAMAIS_STATUS_ACTIVE</option>
+			<option value="0">COM_RAMAIS_STATUS_INACTIVE</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field name="fullordering" type="list" onchange="this.form.submit();" default="a.setor ASC" validate="options" label="JGLOBAL_SORT_BY">
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.setor ASC">COM_RAMAIS_SORT_SETOR_ASC</option>
+			<option value="a.setor DESC">COM_RAMAIS_SORT_SETOR_DESC</option>
+			<option value="a.ramal ASC">COM_RAMAIS_SORT_RAMAL_ASC</option>
+			<option value="a.ramal DESC">COM_RAMAIS_SORT_RAMAL_DESC</option>
+			<option value="a.localizacao ASC">COM_RAMAIS_SORT_LOCALIZACAO_ASC</option>
+			<option value="a.localizacao DESC">COM_RAMAIS_SORT_LOCALIZACAO_DESC</option>
+			<option value="a.ordering ASC">COM_RAMAIS_SORT_ORDERING_ASC</option>
+			<option value="a.state DESC">COM_RAMAIS_SORT_STATUS</option>
+		</field>
+		<field name="limit" type="limitbox" default="25" onchange="this.form.submit();" label="JGLOBAL_LIST_LIMIT" />
+	</fields>
+</form>

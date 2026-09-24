@@ -1,0 +1,63 @@
+name: intranet-hospitalar
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DATABASE}
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  joomla:
+    image: joomla:5-php8.2-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment:
+      JOOMLA_DB_HOST: db
+      JOOMLA_DB_TYPE: mysqli
+      JOOMLA_DB_NAME: ${MYSQL_DATABASE}
+      JOOMLA_DB_USER: ${MYSQL_USER}
+      JOOMLA_DB_PASSWORD: ${MYSQL_PASSWORD}
+      # Instalação automática (sem o assistente web)
+      JOOMLA_SITE_NAME: ${JOOMLA_SITE_NAME}
+      JOOMLA_ADMIN_USER: ${JOOMLA_ADMIN_USER}
+      JOOMLA_ADMIN_USERNAME: ${JOOMLA_ADMIN_USERNAME}
+      JOOMLA_ADMIN_PASSWORD: ${JOOMLA_ADMIN_PASSWORD}
+      JOOMLA_ADMIN_EMAIL: ${JOOMLA_ADMIN_EMAIL}
+    volumes:
+      - joomla_data:/var/www/html
+      # Template em desenvolvimento: editado aqui, refletido na hora no container
+      - ./templates/hospital_intranet:/var/www/html/templates/hospital_intranet
+      - ./extensions/modules/mod_hospital_quick_access:/var/www/html/modules/mod_hospital_quick_access
+      - ./extensions/components/com_ramais/administrator:/var/www/html/administrator/components/com_ramais
+      - ./extensions/components/com_ramais/site:/var/www/html/components/com_ramais
+      - ./extensions/components/com_documentos/administrator:/var/www/html/administrator/components/com_documentos
+      - ./extensions/components/com_documentos/site:/var/www/html/components/com_documentos
+      - ./extensions/modules/mod_hospital_protocols:/var/www/html/modules/mod_hospital_protocols
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+
+volumes:
+  db_data:
+  joomla_data:

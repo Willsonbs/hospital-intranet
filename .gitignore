@@ -1,0 +1,8 @@
+# Senhas e configurações locais
+.env
+
+# Sistema / editores
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

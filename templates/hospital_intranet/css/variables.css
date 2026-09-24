@@ -1,0 +1,55 @@
+/* Intranet Hospitalar — design tokens */
+:root {
+	/* Marca */
+	--primary: #075B63;
+	--primary-dark: #064850;
+	--primary-darker: #04363C;
+	--primary-light: #0B7378;
+	--accent: #2E9B76;          /* verde hospitalar */
+	--accent-soft: #7FD1C0;     /* verde-água para destaques sobre fundo escuro */
+	--secondary: #E9F6F5;
+
+	/* Superfícies e texto */
+	--background: #F4F7F7;
+	--surface: #FFFFFF;
+	--text-primary: #102A2E;
+	--text-secondary: #607477;
+	--text-on-dark: #FFFFFF;
+	--text-on-dark-muted: rgba(255, 255, 255, .78);
+	--border: #DCE7E8;
+
+	/* Estados */
+	--success: #2E9B76;
+	--warning: #E8A43A;
+	--danger: #D95C5C;
+	--focus: #F2B544;
+
+	/* Tons dos ícones do acesso rápido (fundo suave / ícone) */
+	--tone-blue-bg: #E8F0FB;    --tone-blue: #3B6FB6;
+	--tone-green-bg: #E3F4EE;   --tone-green: #2E8A6A;
+	--tone-purple-bg: #EFEBFA;  --tone-purple: #7358B8;
+	--tone-orange-bg: #FDF1E3;  --tone-orange: #C27A1E;
+	--tone-slate-bg: #EAF0F1;   --tone-slate: #3F5A5E;
+	--tone-red-bg: #FCEBEB;     --tone-red: #C04A4A;
+
+	/* Tipografia */
+	--font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+	--fs-xs: .75rem;
+	--fs-sm: .875rem;
+	--fs-base: 1rem;
+	--fs-lg: 1.125rem;
+	--fs-xl: 1.5rem;
+	--fs-hero: clamp(2.25rem, 1.6rem + 2.6vw, 3.25rem);
+
+	/* Layout */
+	--container: 1116px;
+	--gutter: 16px;
+	--header-h: 84px;
+	--radius-sm: 8px;
+	--radius: 12px;
+	--radius-lg: 16px;
+	--shadow-sm: 0 1px 2px rgba(16, 42, 46, .06);
+	--shadow: 0 10px 30px rgba(16, 42, 46, .08);
+	--shadow-hover: 0 14px 34px rgba(16, 42, 46, .12);
+	--transition: 180ms ease;
+}

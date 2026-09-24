@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="documentos" label="COM_DOCUMENTOS_CONFIG_LABEL">
+		<field name="setores" type="textarea" rows="10" filter="string"
+			default="Enfermagem&#10;Controle de Infecção&#10;Farmácia&#10;Segurança do Paciente&#10;Corpo Clínico&#10;Recursos Humanos&#10;Tecnologia da Informação&#10;Qualidade&#10;Administração&#10;Nutrição e Dietética"
+			label="COM_DOCUMENTOS_CONFIG_SETORES" description="COM_DOCUMENTOS_CONFIG_SETORES_DESC" />
+		<field name="list_limit" type="number" default="20" min="5" max="100" filter="integer" label="COM_DOCUMENTOS_CONFIG_LIST_LIMIT" />
+	</fieldset>
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" component="com_documentos" filter="rules" validate="rules" section="component" />
+	</fieldset>
+</config>

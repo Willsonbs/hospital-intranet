@@ -1,0 +1,132 @@
+/* Intranet Hospitalar — responsividade (desktop 3 col · tablet 2 col · mobile 1 col) */
+
+@media (max-width: 1023.98px) {
+	.hi-shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.hi-content--sidebar { grid-template-columns: 1fr; }
+	.hi-footer__grid { grid-template-columns: 1fr 1fr; }
+	.hi-footer__brand { grid-column: 1 / -1; }
+}
+
+/* Menu hamburger */
+@media (max-width: 1023.98px) {
+	:root { --header-h: 72px; }
+
+	.hi-nav-toggle { display: inline-grid; place-items: center; }
+
+	.hi-nav {
+		position: absolute;
+		top: 100%;
+		left: var(--gutter); right: var(--gutter);
+		display: none;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0;
+		padding: 8px;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+	}
+	.hi-nav.is-open { display: flex; }
+
+	.hi-nav .mod-menu { flex-direction: column; align-items: stretch; gap: 0; }
+	.hi-nav .mod-menu a,
+	.hi-nav .mod-menu .nav-header,
+	.hi-nav .mod-menu .separator {
+		display: flex;
+		padding: 12px;
+		border-radius: var(--radius-sm);
+		color: var(--text-primary);
+		font-size: var(--fs-base);
+	}
+	.hi-nav .mod-menu a:hover,
+	.hi-nav .mod-menu > li.active > a,
+	.hi-nav .mod-menu > li.current > a { background: var(--secondary); color: var(--primary-dark); }
+	.hi-nav .mod-menu > li > a::after { display: none; }
+	.hi-nav .mod-menu > li.parent::after { top: 24px; right: 12px; color: var(--text-secondary); }
+
+	.hi-nav .mod-menu__sub {
+		position: static;
+		min-width: 0;
+		padding: 0 0 0 12px;
+		border: 0;
+		box-shadow: none;
+		opacity: 1; visibility: visible; transform: none;
+	}
+
+	.hi-header__tools { padding: 8px 12px; }
+
+	.hi-hero { padding: 56px 0 96px; }
+}
+
+@media (max-width: 639.98px) {
+	.hi-shortcuts { grid-template-columns: 1fr; }
+	.hi-card { padding: 20px 16px; }
+	.hi-section { margin-top: 40px; }
+	.hi-section-head { flex-wrap: wrap; }
+	.hi-footer__grid { grid-template-columns: 1fr; }
+	.hi-content__main .item-page,
+	.hi-content__main .blog,
+	.hi-content__main .category-list { padding: 20px 16px; }
+}
+
+/* Tabela em cards no celular */
+@media (max-width: 639.98px) {
+	.hi-table--stack thead tr { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+	.hi-table--stack thead th { background: none; }
+	.hi-table--stack thead th:first-child,
+	.hi-table--stack thead th:last-child { border-radius: 0; }
+	.hi-table--stack .hi-table__sort {
+		padding: 6px 12px;
+		border: 1px solid var(--border);
+		border-radius: 999px;
+		color: var(--primary-dark);
+		letter-spacing: .06em;
+	}
+	.hi-table--stack .hi-table__sort:hover { background: var(--secondary); color: var(--primary-dark); }
+	.hi-table--stack th[aria-sort="ascending"] .hi-table__sort,
+	.hi-table--stack th[aria-sort="descending"] .hi-table__sort { background: var(--primary); border-color: var(--primary); color: var(--text-on-dark); }
+	.hi-table__col--ramal, .hi-table__col--localizacao { width: auto; }
+
+	.hi-table--stack tbody { display: grid; gap: 12px; }
+	.hi-table--stack tbody tr {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+	.hi-table--stack tbody tr[hidden] { display: none; }
+	.hi-table--stack tbody th,
+	.hi-table--stack tbody td { display: block; padding: 12px 16px; border: 0; }
+	.hi-table--stack tbody th {
+		grid-column: 1 / -1;
+		border-bottom: 1px solid var(--border);
+		color: var(--primary-dark);
+		font-size: var(--fs-sm);
+		letter-spacing: .06em;
+		text-transform: uppercase;
+	}
+	.hi-table--stack tbody td::before {
+		content: attr(data-label);
+		display: block;
+		color: var(--text-secondary);
+		font-size: var(--fs-xs);
+		font-weight: 400;
+	}
+}
+
+@media (max-width: 1023.98px) {
+	.hi-news-grid, .hi-system-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 639.98px) {
+	.hi-news-grid, .hi-system-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 639.98px) {
+	.hi-doc { flex-wrap: wrap; padding: 16px; }
+	.hi-doc__aside { flex-direction: row; align-items: center; order: 3; width: 100%; padding-left: 60px; }
+	.hi-doc__chevron { display: none; }
+	.hi-filterbar { padding: 16px; }
+	.hi-filterbar__actions { width: 100%; }
+}

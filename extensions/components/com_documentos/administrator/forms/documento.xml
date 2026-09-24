@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Hospital\Component\Documentos\Administrator\Field">
+	<fieldset name="details">
+		<field name="id" type="hidden" default="0" />
+		<field name="codigo" type="text" required="true" maxlength="40" filter="string"
+			pattern="[A-Za-z0-9][A-Za-z0-9._\-]*"
+			label="COM_DOCUMENTOS_FIELD_CODIGO" description="COM_DOCUMENTOS_FIELD_CODIGO_DESC" hint="POP-ENF-042" />
+		<field name="titulo" type="text" required="true" maxlength="255" filter="string" label="COM_DOCUMENTOS_FIELD_TITULO" />
+		<field name="catid" type="category" extension="com_documentos" required="true" label="COM_DOCUMENTOS_FIELD_CATEGORIA" />
+		<field name="setor" type="setor" required="true" label="COM_DOCUMENTOS_FIELD_SETOR" description="COM_DOCUMENTOS_FIELD_SETOR_DESC">
+			<option value="">COM_DOCUMENTOS_SELECT_SETOR</option>
+		</field>
+		<field name="descricao" type="textarea" rows="5" filter="string" label="COM_DOCUMENTOS_FIELD_DESCRICAO" />
+		<field name="arquivo" type="media" required="true" types="documents" preview="false"
+			directory="local-files:/documentos" label="COM_DOCUMENTOS_FIELD_ARQUIVO" description="COM_DOCUMENTOS_FIELD_ARQUIVO_DESC" />
+	</fieldset>
+	<fieldset name="control">
+		<field name="versao" type="text" required="true" maxlength="20" default="1.0" filter="string"
+			pattern="[0-9]+(\.[0-9]+)*" label="COM_DOCUMENTOS_FIELD_VERSAO" hint="4.2" />
+		<field name="status" type="list" default="vigente" validate="options" label="COM_DOCUMENTOS_FIELD_STATUS">
+			<option value="vigente">COM_DOCUMENTOS_STATUS_VIGENTE</option>
+			<option value="em_revisao">COM_DOCUMENTOS_STATUS_EM_REVISAO</option>
+			<option value="obsoleto">COM_DOCUMENTOS_STATUS_OBSOLETO</option>
+		</field>
+		<field name="data_publicacao" type="calendar" required="true" format="%Y-%m-%d" filter="string" translateformat="false"
+			label="COM_DOCUMENTOS_FIELD_DATA_PUBLICACAO" />
+		<field name="data_revisao" type="calendar" format="%Y-%m-%d" filter="string" translateformat="false"
+			label="COM_DOCUMENTOS_FIELD_DATA_REVISAO" description="COM_DOCUMENTOS_FIELD_DATA_REVISAO_DESC" />
+		<field name="autor" type="text" maxlength="150" filter="string" label="COM_DOCUMENTOS_FIELD_AUTOR" />
+		<field name="publico_alvo" type="text" maxlength="255" filter="string" label="COM_DOCUMENTOS_FIELD_PUBLICO_ALVO" hint="COM_DOCUMENTOS_FIELD_PUBLICO_ALVO_HINT" />
+		<field name="state" type="list" default="1" filter="intval" class="form-select-color-state" validate="options" label="JSTATUS">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+	</fieldset>
+</form>
