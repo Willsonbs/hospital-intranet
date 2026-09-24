@@ -39,7 +39,9 @@ Pode ser executado de novo sem problema: cada passo verifica se já foi feito.
 scripts/reset.sh                 # apaga banco e arquivos e reinstala do zero (pede confirmação)
 scripts/visual-check.sh          # screenshots desktop/tablet/mobile + axe (acessibilidade) em var/visual/
 scripts/build-icons.sh           # regenera o sprite de ícones a partir de scripts/icons.txt
-docker compose exec -u www-data joomla php cli/joomla.php intranet:setup   # recria o que faltar
+docker compose exec -u www-data joomla php cli/joomla.php intranet:setup        # recria o que faltar
+docker compose exec -u www-data joomla php cli/joomla.php intranet:acl-report   # permissões dos papéis
+tests/acl/login-test.sh          # testa o painel com login real de cada papel
 docker compose logs -f joomla    # logs do Apache/PHP
 docker compose exec -u www-data joomla php cli/joomla.php list   # CLI do Joomla
 ```
@@ -53,9 +55,11 @@ docker-compose.override.yml   dev: monta src/ dentro do Joomla (edição ao vivo
 src/
   templates/hospital_intranet/               template (PHP, overrides, layouts, idioma)
   media/templates/site/hospital_intranet/    CSS, JS, fontes, ícones, imagens
-  plugins/console/intranet/                  comando intranet:setup
+  plugins/console/intranet/                  comandos intranet:setup e intranet:acl-report
+  plugins/system/intranet/                   regras extras de ACL no painel
 scripts/                      install, reset, visual-check, build-icons
-tests/visual/                 script de screenshots/acessibilidade
+tests/                        visual/ (screenshots + axe), acl/ (login real por papel)
+docs/                         acl.md (papéis, permissões e campos)
 var/                          pacotes baixados, screenshots (ignorado)
 ```
 

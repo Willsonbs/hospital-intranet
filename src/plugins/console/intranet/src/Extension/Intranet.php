@@ -7,6 +7,7 @@
 
 namespace HospitalSantaAurora\Plugin\Console\Intranet\Extension;
 
+use HospitalSantaAurora\Plugin\Console\Intranet\Command\AclReportCommand;
 use HospitalSantaAurora\Plugin\Console\Intranet\Command\SetupCommand;
 use Joomla\Application\ApplicationEvents;
 use Joomla\Application\Event\ApplicationEvent;
@@ -28,5 +29,6 @@ final class Intranet extends CMSPlugin implements SubscriberInterface
     public function registerCommands(ApplicationEvent $event): void
     {
         $event->getApplication()->addCommand(new SetupCommand());
+        $event->getApplication()->addCommand(new AclReportCommand());
     }
 }

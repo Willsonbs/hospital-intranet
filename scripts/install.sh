@@ -111,7 +111,7 @@ if [[ -f docker-compose.override.yml ]]; then
     jcli extension:discover >/dev/null
     jcli extension:discover:install -n | grep -E 'OK|ERROR|nstalled' || true
     sql "UPDATE ${DB_PREFIX}extensions SET enabled = 1
-         WHERE type = 'plugin' AND folder = 'console' AND element = 'intranet'"
+         WHERE type = 'plugin' AND folder IN ('console', 'system') AND element = 'intranet'"
 fi
 
 # --- 7. Estrutura da intranet (template, categorias, menus, módulos) ---------

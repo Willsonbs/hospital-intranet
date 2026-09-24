@@ -7,9 +7,12 @@
 
 namespace HospitalSantaAurora\Plugin\Console\Intranet\Command;
 
+use HospitalSantaAurora\Plugin\Console\Intranet\Setup\AclStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\CategoriesStep;
+use HospitalSantaAurora\Plugin\Console\Intranet\Setup\FieldsStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\MenusStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\ModulesStep;
+use HospitalSantaAurora\Plugin\Console\Intranet\Setup\PanelStep;
 use HospitalSantaAurora\Plugin\Console\Intranet\Setup\TemplateStep;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
@@ -35,7 +38,7 @@ final class SetupCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Cria a estrutura da intranet (template, categorias, menus e módulos)');
+        $this->setDescription('Cria a estrutura da intranet (template, categorias, campos, permissões, menus e módulos)');
         $this->setHelp(
             "Cria o que estiver faltando e mantém o que já existe.\n"
             . "Registros criados aqui têm a nota \"intranet:<chave>\" no painel: não altere essas notas."
@@ -56,8 +59,11 @@ final class SetupCommand extends AbstractCommand
         $steps = [
             new TemplateStep($app, $db, $io),
             new CategoriesStep($app, $db, $io),
+            new FieldsStep($app, $db, $io),
+            new AclStep($app, $db, $io),
             new MenusStep($app, $db, $io),
             new ModulesStep($app, $db, $io),
+            new PanelStep($app, $db, $io),
         ];
 
         try {

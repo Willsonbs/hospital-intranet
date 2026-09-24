@@ -58,7 +58,9 @@ Nada fica fixo no template. Cada tipo de conteúdo tem uma fonte administrável:
 
 - As permissões são dadas **por categoria** (ACL do `com_content`). Os grupos não têm permissão global de edição.
 - Ramais, Sistemas, Menus, Módulos, Usuários e Configuração ficam só com o Administrador (§13.7). A permissão pode ser concedida depois, pelo ACL, sem mexer em código.
-- O menu do backend de cada papel será enxuto (Admin Menu próprio por grupo), mostrando só o que o papel usa.
+- O menu do backend de cada papel mostra só o que o papel usa: o próprio Joomla esconde as telas sem permissão.
+- O ACL nativo não separa "editar artigos da categoria" de "editar a categoria". O plugin `plg_system_intranet` bloqueia Categorias e Campos para quem não é super usuário.
+- Detalhes, relatório (`intranet:acl-report`) e teste (`tests/acl/login-test.sh`): [docs/acl.md](docs/acl.md).
 - O registro público de usuários fica desativado.
 
 ---
@@ -162,7 +164,7 @@ hospital-intranet/
 |---|---|---|
 | 0 | **Infra** ✅ | `scripts/install.sh` sobe o Joomla instalado automaticamente em `http://localhost:8080` |
 | 1 | **Template base** ✅ | Header, menu responsivo, hero com saudação, footer, tokens, página de design system (`/?tmpl=designsystem`), comando `intranet:setup` (template, categorias, menus, módulos) |
-| 2 | **Modelo de conteúdo + ACL** | Comando `intranet:setup`: categorias, campos, grupos, permissões, menus |
+| 2 | **Modelo de conteúdo + ACL** ✅ | Comando `intranet:setup`: categorias, campos, grupos, permissões, menus |
 | 3 | **Home** | Overrides: acesso rápido, notícias, protocolos, avisos |
 | 4 | **Ramais** | `com_ramais` (admin + frontend + busca + ordenação + mobile) |
 | 5 | **Sistemas, Documentos, Protocolos, Notícias** | Páginas internas com filtros |

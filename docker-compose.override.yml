@@ -7,3 +7,4 @@ services:
       - ./src/templates/hospital_intranet:/var/www/html/templates/hospital_intranet:ro
       - ./src/media/templates/site/hospital_intranet:/var/www/html/media/templates/site/hospital_intranet:ro
       - ./src/plugins/console/intranet:/var/www/html/plugins/console/intranet:ro
+      - ./src/plugins/system/intranet:/var/www/html/plugins/system/intranet:ro
