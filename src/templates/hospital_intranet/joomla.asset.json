@@ -1,0 +1,70 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "hospital_intranet",
+  "version": "0.1.0",
+  "description": "Assets do template da intranet do Hospital Santa Aurora.",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "template.hospital_intranet.variables",
+      "type": "style",
+      "uri": "variables.css"
+    },
+    {
+      "name": "template.hospital_intranet.base",
+      "type": "style",
+      "uri": "template.css",
+      "dependencies": ["template.hospital_intranet.variables"]
+    },
+    {
+      "name": "template.hospital_intranet.components",
+      "type": "style",
+      "uri": "components.css",
+      "dependencies": ["template.hospital_intranet.base"]
+    },
+    {
+      "name": "template.active",
+      "description": "Permite que extensões usem o template ativo como dependência.",
+      "type": "style",
+      "uri": "",
+      "dependencies": ["template.hospital_intranet.components"]
+    },
+    {
+      "name": "template.user",
+      "description": "CSS livre do administrador (media/templates/site/hospital_intranet/css/user.css).",
+      "type": "style",
+      "uri": "user.css",
+      "weight": 500,
+      "dependencies": ["template.active"]
+    },
+    {
+      "name": "template.hospital_intranet.navigation",
+      "type": "script",
+      "uri": "navigation.js",
+      "attributes": { "type": "module" }
+    },
+    {
+      "name": "template.hospital_intranet.greeting",
+      "type": "script",
+      "uri": "greeting.js",
+      "attributes": { "type": "module" }
+    },
+    {
+      "name": "template.hospital_intranet.components",
+      "type": "script",
+      "uri": "components.js",
+      "attributes": { "type": "module" }
+    },
+    {
+      "name": "template.active",
+      "type": "script",
+      "uri": "",
+      "dependencies": ["template.hospital_intranet.navigation", "template.hospital_intranet.components"]
+    },
+    {
+      "name": "template.hospital_intranet",
+      "type": "preset",
+      "dependencies": ["template.active#style", "template.user#style", "template.active#script"]
+    }
+  ]
+}

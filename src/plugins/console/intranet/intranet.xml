@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="console" method="upgrade">
+	<name>plg_console_intranet</name>
+	<version>0.1.0</version>
+	<creationDate>2026-09</creationDate>
+	<author>Hospital Santa Aurora — TI</author>
+	<copyright>(C) 2026 Hospital Santa Aurora</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>PLG_CONSOLE_INTRANET_XML_DESCRIPTION</description>
+	<namespace path="src">HospitalSantaAurora\Plugin\Console\Intranet</namespace>
+	<files>
+		<folder plugin="intranet">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages folder="language">
+		<language tag="pt-BR">pt-BR/plg_console_intranet.sys.ini</language>
+	</languages>
+</extension>

@@ -67,6 +67,10 @@ jcli config:set \
     lifetime=30 \
     >/dev/null
 
+# Nome do site depois do título da página na aba do navegador ("Início - Intranet ...").
+# A opção não existe no configuration.php inicial e o config:set só altera opções existentes.
+jexec sh -c "grep -q 'sitename_pagetitles' configuration.php || sed -i 's/^}\$/\tpublic \$sitename_pagetitles = 2;\n}/' configuration.php"
+
 # .htaccess é necessário para URLs sem index.php (sef_rewrite)
 jexec sh -c 'test -f .htaccess || sed -r "s/^(Options -Indexes.*)$/#\1/" htaccess.txt > .htaccess'
 
@@ -99,6 +103,22 @@ for pkg in var/packages/*.zip; do
     install_zip "$pkg"
 done
 shopt -u nullglob
+
+# --- 6. Desenvolvimento: registra as extensões montadas a partir de src/ ------
+# (docker-compose.override.yml). discover:install só pega o que ainda não está instalado.
+if [[ -f docker-compose.override.yml ]]; then
+    log "Registrando extensões de src/ (modo desenvolvimento)"
+    jcli extension:discover >/dev/null
+    jcli extension:discover:install -n | grep -E 'OK|ERROR|nstalled' || true
+    sql "UPDATE ${DB_PREFIX}extensions SET enabled = 1
+         WHERE type = 'plugin' AND folder = 'console' AND element = 'intranet'"
+fi
+
+# --- 7. Estrutura da intranet (template, categorias, menus, módulos) ---------
+if [[ "$(sql "SELECT enabled FROM ${DB_PREFIX}extensions WHERE type='plugin' AND folder='console' AND element='intranet'")" == "1" ]]; then
+    log "Criando a estrutura da intranet"
+    jcli intranet:setup
+fi
 
 jcli cache:clean >/dev/null 2>&1 || true
 

@@ -1,0 +1,9 @@
+# Desenvolvimento: monta o código de src/ dentro do Joomla (edição ao vivo).
+# Carregado automaticamente pelo "docker compose". Em produção, use
+# "docker compose -f docker-compose.yml" e instale o pacote gerado por scripts/build.sh.
+services:
+  joomla:
+    volumes:
+      - ./src/templates/hospital_intranet:/var/www/html/templates/hospital_intranet:ro
+      - ./src/media/templates/site/hospital_intranet:/var/www/html/media/templates/site/hospital_intranet:ro
+      - ./src/plugins/console/intranet:/var/www/html/plugins/console/intranet:ro

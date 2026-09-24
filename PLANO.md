@@ -87,7 +87,7 @@ media/templates/site/hospital_intranet/
   - Conteúdo centralizado com largura máxima de ~1120 px.
 - **Posições:** `header`, `mainmenu`, `search`, `hero`, `alerts`, `quick-access`, `news`, `protocols`, `events`, `sidebar`, `main-top`, `main-bottom`, `footer`, `footer-menu`.
 - **CSS próprio com design tokens** (as variáveis da §3 da especificação), sem Bootstrap no frontend. O Joomla 6 inclui Bootstrap, mas o template não o carrega, para ficar leve e sem "cara de Joomla".
-- **Ícones:** sprite SVG com os ícones usados (Font Awesome Free, em subconjunto), em vez da biblioteca inteira. O campo "ícone" dos sistemas usa os nomes FA (`fa-user`, `fa-phone`…).
+- **Ícones:** sprite SVG com os ícones usados de **Lucide** (licença ISC; traço fino, igual à imagem de referência), gerado por `scripts/build-icons.sh` a partir de `scripts/icons.txt`. O campo "ícone" dos sistemas usa os nomes Lucide (`users`, `phone`…).
 - **Fontes** servidas localmente (sem CDN externa), já que a intranet pode não ter internet.
 - **Layout:** header de 64–72 px em azul-petróleo; menu horizontal com indicador no item ativo; hambúrguer no mobile com `aria-expanded`. Grade de cards com 3, 2 e 1 colunas.
 - **Acessibilidade:** link "pular para o conteúdo", foco visível, hierarquia de títulos, `prefers-reduced-motion`, contraste AA verificado com axe.
@@ -113,7 +113,7 @@ Seguindo a regra "nativo primeiro", a maior parte dos `mod_hospital_*` da §25 v
 
 | Item | Tipo |
 |---|---|
-| Início | Página inicial com os módulos na ordem da §36: hero → avisos → acesso rápido → notícias → protocolos → eventos → footer |
+| Início | Página inicial com os módulos na ordem da §36: hero (saudação + **avisos**, visíveis sem rolar) → acesso rápido → notícias → protocolos → eventos → footer |
 | Sistemas | Categoria Sistemas + override: grupos por subcategoria, cards "Acessar sistema →" |
 | Ramais | `com_ramais`: tabela com `<th scope="col">` ordenável pelo cabeçalho, busca em tempo real (JS) e fallback `?q=` sem JS; vira cards no mobile |
 | Eventos | Página com `mod_hospital_events` no layout de calendário |
@@ -160,8 +160,8 @@ hospital-intranet/
 
 | # | Fase | Entregável verificável |
 |---|---|---|
-| 0 | **Infra** | `scripts/install.sh` sobe o Joomla instalado automaticamente em `http://localhost:8080` |
-| 1 | **Template base** | Header, menu responsivo, hero com saudação, footer, tokens, página de design system |
+| 0 | **Infra** ✅ | `scripts/install.sh` sobe o Joomla instalado automaticamente em `http://localhost:8080` |
+| 1 | **Template base** ✅ | Header, menu responsivo, hero com saudação, footer, tokens, página de design system (`/?tmpl=designsystem`), comando `intranet:setup` (template, categorias, menus, módulos) |
 | 2 | **Modelo de conteúdo + ACL** | Comando `intranet:setup`: categorias, campos, grupos, permissões, menus |
 | 3 | **Home** | Overrides: acesso rápido, notícias, protocolos, avisos |
 | 4 | **Ramais** | `com_ramais` (admin + frontend + busca + ordenação + mobile) |
