@@ -1114,3 +1114,85 @@ textarea.input {
   display: grid;
   gap: var(--space-3);
 }
+
+/* Linhas filtradas (hidden) somem também no modo cards do celular */
+.table tr[hidden] {
+  display: none !important;
+}
+
+/* Ícone de ordenação: ↕ sem ordem; seta para cima/baixo na coluna ordenada */
+a.sort-btn {
+  text-decoration: none;
+}
+
+.sort-btn__dir {
+  display: none;
+}
+
+th[aria-sort="ascending"] .sort-btn__none,
+th[aria-sort="descending"] .sort-btn__none {
+  display: none;
+}
+
+th[aria-sort="ascending"] .sort-btn__dir,
+th[aria-sort="descending"] .sort-btn__dir {
+  display: inline-block;
+  opacity: 1;
+}
+
+th[aria-sort="ascending"] .sort-btn__dir {
+  transform: rotate(180deg);
+}
+
+/* --- Diretório de ramais -------------------------------------------------- */
+
+.directory__search {
+  margin-bottom: var(--space-4);
+}
+
+.directory__count {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.directory__table td:first-child {
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .directory__table .num {
+    width: 9rem;
+  }
+
+  .directory__table td.num {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .directory__table td.num {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+  }
+}
+
+.directory__table td.num {
+  white-space: nowrap;
+}
+
+@media (max-width: 767.98px) {
+  /* Nos cards o ramal fica à esquerda, como os demais campos */
+  .table-responsive-cards td.num {
+    text-align: left;
+  }
+
+  /* Com JS a busca já filtra enquanto digita: o botão só ocupa espaço */
+  .js .directory__search .btn {
+    display: none;
+  }
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" method="upgrade">
+	<name>com_ramais</name>
+	<version>0.1.0</version>
+	<creationDate>2026-09</creationDate>
+	<author>Hospital Santa Aurora — TI</author>
+	<copyright>(C) 2026 Hospital Santa Aurora</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<description>COM_RAMAIS_XML_DESCRIPTION</description>
+	<namespace path="src">HospitalSantaAurora\Component\Ramais</namespace>
+
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+
+	<files folder="site">
+		<folder>language</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+
+	<media destination="com_ramais" folder="media">
+		<filename>joomla.asset.json</filename>
+		<folder>js</folder>
+	</media>
+
+	<administration>
+		<menu img="class:phone">COM_RAMAIS</menu>
+		<files folder="administrator">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>ramais.xml</filename>
+			<folder>forms</folder>
+			<folder>language</folder>
+			<folder>services</folder>
+			<folder>sql</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
+		</files>
+	</administration>
+</extension>

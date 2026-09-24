@@ -70,6 +70,7 @@ final class AclReportCommand extends AbstractCommand
             'Módulos'                         => ['core.manage', 'com_modules'],
             'Categorias'                      => ['core.manage', 'com_categories'],
             'Campos (estrutura)'              => ['core.manage', 'com_fields'],
+            'Ramais'                          => ['core.manage', 'com_ramais'],
             'Artigos (lista)'                 => ['core.manage', 'com_content'],
             'Mídia: ver'                      => ['core.manage', 'com_media'],
             'Mídia: enviar'                   => ['core.create', 'com_media'],

@@ -8,3 +8,6 @@ services:
       - ./src/media/templates/site/hospital_intranet:/var/www/html/media/templates/site/hospital_intranet:ro
       - ./src/plugins/console/intranet:/var/www/html/plugins/console/intranet:ro
       - ./src/plugins/system/intranet:/var/www/html/plugins/system/intranet:ro
+      - ./src/components/com_ramais/administrator:/var/www/html/administrator/components/com_ramais:ro
+      - ./src/components/com_ramais/site:/var/www/html/components/com_ramais:ro
+      - ./src/components/com_ramais/media:/var/www/html/media/com_ramais:ro

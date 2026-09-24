@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_RAMAIS_FILTER_SEARCH_LABEL"
+			hint="COM_RAMAIS_FILTER_SEARCH_HINT"
+		/>
+		<field
+			name="state"
+			type="list"
+			label="COM_RAMAIS_FIELD_STATUS"
+			class="js-select-submit-on-change"
+			validate="options"
+			>
+			<option value="">COM_RAMAIS_FILTER_STATUS_SELECT</option>
+			<option value="1">COM_RAMAIS_STATUS_ACTIVE</option>
+			<option value="0">COM_RAMAIS_STATUS_INACTIVE</option>
+			<option value="-2">JTRASHED</option>
+			<option value="*">JALL</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			class="js-select-submit-on-change"
+			default="a.setor ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.setor ASC">COM_RAMAIS_SORT_SETOR_ASC</option>
+			<option value="a.setor DESC">COM_RAMAIS_SORT_SETOR_DESC</option>
+			<option value="a.ramal ASC">COM_RAMAIS_SORT_RAMAL_ASC</option>
+			<option value="a.ramal DESC">COM_RAMAIS_SORT_RAMAL_DESC</option>
+			<option value="a.localizacao ASC">COM_RAMAIS_SORT_LOCALIZACAO_ASC</option>
+			<option value="a.localizacao DESC">COM_RAMAIS_SORT_LOCALIZACAO_DESC</option>
+			<option value="a.ordering ASC">COM_RAMAIS_SORT_ORDERING_ASC</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="50"
+			class="js-select-submit-on-change"
+		/>
+	</fields>
+</form>

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_ramais",
+  "version": "0.1.0",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_ramais.directory",
+      "type": "script",
+      "uri": "com_ramais/directory.js",
+      "attributes": { "type": "module" }
+    }
+  ]
+}

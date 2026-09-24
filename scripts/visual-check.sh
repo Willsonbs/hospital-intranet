@@ -24,4 +24,6 @@ for page, violations in r["axe"].items():
         print(f"   [{v['impact']}] {v['id']} ×{v['n']} — {v['help']} ({v['target']})")
 print("Erros no console:", r["consoleErrors"] or "nenhum")
 print("Foco após abrir a busca:", r["searchFocus"])
+for step, st in r.get("ramais", {}).items():
+    print(f"Ramais / {step}: {st['count']} | {st['visible']} | {st['sort']} | url={st['url']}")
 PY

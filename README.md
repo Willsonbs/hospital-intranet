@@ -44,6 +44,7 @@ scripts/build-demo-images.py     # regenera as imagens abstratas do conteúdo de
 docker compose exec -u www-data joomla php cli/joomla.php intranet:setup        # recria o que faltar
 docker compose exec -u www-data joomla php cli/joomla.php intranet:acl-report   # permissões dos papéis
 tests/acl/login-test.sh          # testa o painel com login real de cada papel
+tests/ramais/admin-test.sh       # testa o cadastro de ramais pelo painel (validação, ativar/desativar, excluir)
 docker compose logs -f joomla    # logs do Apache/PHP
 docker compose exec -u www-data joomla php cli/joomla.php list   # CLI do Joomla
 ```
@@ -57,10 +58,11 @@ docker-compose.override.yml   dev: monta src/ dentro do Joomla (edição ao vivo
 src/
   templates/hospital_intranet/               template (PHP, overrides, layouts, idioma)
   media/templates/site/hospital_intranet/    CSS, JS, fontes, ícones, imagens
+  components/com_ramais/                     diretório de ramais (administrator/, site/, media/)
   plugins/console/intranet/                  comandos intranet:setup e intranet:acl-report
   plugins/system/intranet/                   regras extras de ACL no painel
 scripts/                      install, reset, visual-check, build-icons
-tests/                        visual/ (screenshots + axe), acl/ (login real por papel)
+tests/                        visual/ (screenshots + axe), acl/ (login real por papel), ramais/ (cadastro)
 docs/                         acl.md (papéis, permissões e campos)
 var/                          pacotes baixados, screenshots (ignorado)
 ```
@@ -82,5 +84,19 @@ As seções da home são módulos **Artigos** (Conteúdo → Módulos do site) c
 | Últimos protocolos | `protocols` | 4 mais recentes de Protocolos e POPs |
 
 No título do módulo, o texto antes de `|` vira o rótulo pequeno da seção: `Fique por dentro | Últimas notícias`.
+
+## Diretório de ramais
+
+Cadastro em **Componentes → Ramais** (só Administrador). Campos: Setor, Ramal, Localização, Status (Ativo/Inativo) e Ordem.
+
+- **Ramal:** só números. Para mais de um, separe com barra: `2015 / 2016`.
+- **Status:** ramais inativos não aparecem no site.
+- **Ordem:** usada quando o item de menu *Ramais* está com a opção "Ordem personalizada". O padrão é Setor, de A a Z.
+
+No site (`/ramais`):
+- **Busca:** filtra enquanto se digita, sem diferenciar maiúsculas e acentos.
+- **Ordenação:** clicar no cabeçalho de cada coluna.
+- **Links:** o endereço guarda a busca e a ordem, e pode ser compartilhado (`/ramais?q=uti`).
+- **Sem JavaScript:** a página funciona do mesmo jeito, pelo servidor.
 
 Registros criados pelo `intranet:setup` têm a nota `intranet:<chave>` no painel. **Não altere essas notas**: é por elas que o setup reconhece o que já existe.

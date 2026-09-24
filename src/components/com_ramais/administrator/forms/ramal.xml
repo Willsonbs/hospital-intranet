@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="details">
+		<field name="id" type="hidden" default="0" readonly="true" />
+
+		<field
+			name="setor"
+			type="text"
+			label="COM_RAMAIS_FIELD_SETOR"
+			description="COM_RAMAIS_FIELD_SETOR_DESC"
+			hint="COM_RAMAIS_FIELD_SETOR_HINT"
+			maxlength="150"
+			required="true"
+		/>
+
+		<field
+			name="ramal"
+			type="text"
+			label="COM_RAMAIS_FIELD_RAMAL"
+			description="COM_RAMAIS_FIELD_RAMAL_DESC"
+			hint="2010"
+			maxlength="30"
+			inputmode="numeric"
+			required="true"
+			validate="regex"
+			validate_regex="^\d{2,8}(\s*[\/,-]\s*\d{2,8})*$"
+			message="COM_RAMAIS_ERROR_RAMAL_INVALID"
+		/>
+
+		<field
+			name="localizacao"
+			type="text"
+			label="COM_RAMAIS_FIELD_LOCALIZACAO"
+			description="COM_RAMAIS_FIELD_LOCALIZACAO_DESC"
+			hint="COM_RAMAIS_FIELD_LOCALIZACAO_HINT"
+			maxlength="150"
+		/>
+	</fieldset>
+
+	<fieldset name="status">
+		<field
+			name="state"
+			type="list"
+			label="COM_RAMAIS_FIELD_STATUS"
+			description="COM_RAMAIS_FIELD_STATUS_DESC"
+			default="1"
+			class="form-select-color-state"
+			validate="options"
+			>
+			<option value="1">COM_RAMAIS_STATUS_ACTIVE</option>
+			<option value="0">COM_RAMAIS_STATUS_INACTIVE</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="ordering"
+			type="number"
+			label="COM_RAMAIS_FIELD_ORDERING"
+			description="COM_RAMAIS_FIELD_ORDERING_DESC"
+			min="0"
+			filter="integer"
+		/>
+	</fieldset>
+</form>

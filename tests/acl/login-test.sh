@@ -70,6 +70,7 @@ for u in tqualidade timprensa; do
     check "$c" "Usuários"               "option=com_users&view=users" nao
     check "$c" "Campos (estrutura)"     "option=com_fields&view=fields&context=com_content.article" nao
     check "$c" "Configuração global"    "option=com_config" nao
+    check "$c" "Ramais"                 "option=com_ramais&view=ramais" nao
     cats="$(categories_in_form "$c" | python3 -c 'import html,sys; print(html.unescape(sys.stdin.read()), end="")')"
     [[ "$cats" == "${EXPECTED_CATS[$u]}" ]] && ok "Categorias no novo artigo: $cats" || bad "Categorias no novo artigo: $cats"
 done

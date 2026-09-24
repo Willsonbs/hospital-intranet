@@ -64,14 +64,7 @@ final class MenusStep extends AbstractStep
             ], "Sistemas › $title");
         }
 
-        // Provisório: aponta para com_ramais, que será criado na fase 4
-        $ramais = $this->ensureItem('menu:ramais', [
-            'title'  => 'Ramais',
-            'alias'  => 'ramais',
-            'type'   => 'url',
-            'link'   => 'index.php?option=com_ramais',
-            'params' => ['menu_show' => 1],
-        ]);
+        $ramais = $this->ensureRamais();
 
         $eventos = $this->ensureItem('menu:eventos', [
             'title'  => 'Eventos',
@@ -132,6 +125,48 @@ final class MenusStep extends AbstractStep
                 'params'   => ['aliasoptions' => $target, 'alias_redirect' => 0, 'menu_show' => 1],
             ], "Links úteis › $title");
         }
+    }
+
+    /**
+     * Item "Ramais": aponta para o diretório (com_ramais). Instalações criadas antes do
+     * componente tinham um item provisório do tipo URL, convertido aqui.
+     */
+    private function ensureRamais(): int
+    {
+        $componentId = $this->extensionId('com_ramais');
+        $link        = 'index.php?option=com_ramais&view=ramais';
+
+        if (!$componentId) {
+            throw new \RuntimeException('Componente com_ramais não está instalado.');
+        }
+
+        $id = $this->ensureItem('menu:ramais', [
+            'title'        => 'Ramais',
+            'alias'        => 'ramais',
+            'type'         => 'component',
+            'link'         => $link,
+            'component_id' => $componentId,
+            'params'       => ['show_page_heading' => 0, 'menu_show' => 1, 'ordenacao' => 'setor'],
+        ]);
+
+        $type = $this->db->setQuery(
+            $this->db->getQuery(true)
+                ->select($this->db->quoteName('type'))
+                ->from($this->db->quoteName('#__menu'))
+                ->where($this->db->quoteName('id') . ' = ' . $id)
+        )->loadResult();
+
+        if ($type === 'url') {
+            $this->update('#__menu', $id, [
+                'type'         => 'component',
+                'link'         => $link,
+                'component_id' => $componentId,
+                'params'       => json_encode(['show_page_heading' => 0, 'menu_show' => 1, 'ordenacao' => 'setor']),
+            ]);
+            $this->changed('Ramais: item de menu agora aponta para o diretório');
+        }
+
+        return $id;
     }
 
     private function ensureMenuType(string $menutype, string $title, string $description): void

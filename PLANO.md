@@ -166,11 +166,11 @@ hospital-intranet/
 | 1 | **Template base** ✅ | Header, menu responsivo, hero com saudação, footer, tokens, página de design system (`/?tmpl=designsystem`), comando `intranet:setup` (template, categorias, menus, módulos) |
 | 2 | **Modelo de conteúdo + ACL** ✅ | Comando `intranet:setup`: categorias, campos, grupos, permissões, menus |
 | 3 | **Home** ✅ | Overrides: acesso rápido, notícias, protocolos, avisos |
-| 4 | **Ramais** | `com_ramais` (admin + frontend + busca + ordenação + mobile) |
+| 4 | **Ramais** ✅ | `com_ramais` (admin + frontend + busca + ordenação + mobile) |
 | 5 | **Sistemas, Documentos, Protocolos, Notícias** | Páginas internas com filtros |
 | 6 | **Eventos** | `mod_hospital_events` (próximos + calendário mensal) |
 | 7 | **Busca global** | Smart Search + `plg_finder_ramais` + página de resultados agrupada |
-| 8 | **Conteúdo demo** (parcial ✅) | `intranet:setup --demo`: sistemas, notícias, documentos, aviso e eventos já existem; faltam ramais (fase 4) |
+| 8 | **Conteúdo demo** (parcial ✅) | `intranet:setup --demo`: sistemas, notícias, documentos, aviso, eventos e 25 ramais |
 | 9 | **Segurança e operação** | Restrição de IP, MFA no admin, tipos de upload (pdf, docx, xlsx, pptx, jpg, png, webp), headers HTTP, Action Logs, política de senhas, backup |
 | 10 | **Documentação** | `docs/` completo, pacote `.zip` instalável em qualquer Joomla 6 |
 

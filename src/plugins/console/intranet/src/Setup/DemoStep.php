@@ -39,6 +39,7 @@ final class DemoStep extends AbstractStep
         $this->documents();
         $this->alerts();
         $this->events();
+        $this->ramais();
     }
 
     private function copyImages(): void
@@ -190,6 +191,64 @@ final class DemoStep extends AbstractStep
                 ],
             ]);
         }
+    }
+
+    /** Ramais de exemplo (§13.1): só quando o diretório está vazio. */
+    private function ramais(): void
+    {
+        $total = (int) $this->db->setQuery(
+            $this->db->getQuery(true)->select('COUNT(*)')->from($this->db->quoteName('#__ramais'))
+        )->loadResult();
+
+        if ($total > 0) {
+            $this->exists("Ramais ($total no diretório)");
+
+            return;
+        }
+
+        $ramais = [
+            ['Recepção', '2010', 'Térreo'],
+            ['Pronto Atendimento', '2015 / 2016', 'Térreo'],
+            ['Tecnologia da Informação', '2045', '1º andar'],
+            ['Suporte de TI (plantão)', '2000', '1º andar'],
+            ['Enfermagem', '2080', '2º andar'],
+            ['Posto de Enfermagem — Ala A', '2081', '2º andar'],
+            ['Posto de Enfermagem — Ala B', '2082', '2º andar'],
+            ['Recursos Humanos', '2090', 'Prédio Administrativo'],
+            ['Financeiro', '2100', 'Prédio Administrativo'],
+            ['Faturamento', '2105', 'Prédio Administrativo'],
+            ['Diretoria', '2110', 'Prédio Administrativo'],
+            ['Farmácia', '2120', 'Térreo'],
+            ['Almoxarifado', '2130', 'Subsolo'],
+            ['Centro Cirúrgico', '2200', 'Centro Cirúrgico'],
+            ['UTI Adulto', '2300', 'UTI'],
+            ['UTI Neonatal', '2310', 'UTI'],
+            ['Laboratório', '2400', 'Térreo'],
+            ['Diagnóstico por Imagem', '2410', 'Térreo'],
+            ['Ambulatório', '2500', 'Ambulatório'],
+            ['Nutrição', '2600', 'Subsolo'],
+            ['Controle de Infecção (CCIH)', '2610', '1º andar'],
+            ['Qualidade e Segurança do Paciente', '2620', '1º andar'],
+            ['Educação Permanente', '2630', '1º andar'],
+            ['Manutenção', '2700', 'Subsolo'],
+            ['Segurança Patrimonial', '2800', 'Térreo'],
+        ];
+
+        $now   = Factory::getDate()->toSql();
+        $user  = (int) $this->app->getIdentity()->id;
+        $query = $this->db->getQuery(true)
+            ->insert($this->db->quoteName('#__ramais'))
+            ->columns($this->db->quoteName(['setor', 'ramal', 'localizacao', 'state', 'ordering', 'created', 'created_by', 'modified', 'modified_by']));
+
+        foreach ($ramais as $i => [$setor, $ramal, $local]) {
+            $query->values(implode(',', [
+                $this->db->quote($setor), $this->db->quote($ramal), $this->db->quote($local),
+                1, $i + 1, $this->db->quote($now), $user, $this->db->quote($now), $user,
+            ]));
+        }
+
+        $this->db->setQuery($query)->execute();
+        $this->created(\count($ramais) . ' ramais');
     }
 
     private function article(string $key, array $data): void

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="COM_RAMAIS_RAMAIS_VIEW_DEFAULT_TITLE">
+		<message>COM_RAMAIS_RAMAIS_VIEW_DEFAULT_DESC</message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic" label="COM_RAMAIS_MENU_OPTIONS">
+			<field
+				name="ordenacao"
+				type="list"
+				label="COM_RAMAIS_MENU_ORDERING"
+				default="setor"
+				validate="options"
+				>
+				<option value="setor">COM_RAMAIS_MENU_ORDERING_SETOR</option>
+				<option value="ordering">COM_RAMAIS_MENU_ORDERING_CUSTOM</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

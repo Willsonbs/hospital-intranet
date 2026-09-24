@@ -10,6 +10,7 @@ const AXE = fs.readFileSync(process.env.AXE_PATH || '/axe/axe.min.js', 'utf8');
 const pages = [
   ['home', '/'],
   ['sistemas', '/sistemas'],
+  ['ramais', '/ramais'],
   ['designsystem', '/?tmpl=designsystem'],
   ['404', '/pagina-inexistente'],
 ];
@@ -62,6 +63,34 @@ const widths = { desktop: 1440, tablet: 768, mobile: 390 };
   const focused = await page.evaluate(() => document.activeElement.id);
   await page.screenshot({ path: `${OUT}/busca-aberta.png` });
 
-  fs.writeFileSync(`${OUT}/report.json`, JSON.stringify({ axe: report, consoleErrors: errors, searchFocus: focused }, null, 2));
+  // Diretório de ramais: busca em tempo real, limpar, ordenar, URL
+  const dir = {};
+  const state = () => page.evaluate(() => ({
+    count: document.querySelector('[data-directory-count]').textContent.trim(),
+    visible: [...document.querySelectorAll('[data-directory-table] tbody tr')].filter((tr) => !tr.hidden).map((tr) => tr.cells[0].textContent.trim()),
+    sort: [...document.querySelectorAll('th[data-sort-key]')].map((th) => `${th.dataset.sortKey}:${th.getAttribute('aria-sort')}`).join(' '),
+    url: location.search,
+  }));
+  await page.setViewport({ width: 1440, height: 900 });
+  await page.goto(BASE + '/ramais', { waitUntil: 'networkidle0' });
+  await page.type('[data-directory-input]', 'enfermagem');
+  await new Promise((r) => setTimeout(r, 300));
+  dir.digitando = await state();
+  await page.screenshot({ path: `${OUT}/ramais-busca.png` });
+  await page.click('[data-directory-input]', { clickCount: 3 });
+  await page.keyboard.press('Backspace');
+  await new Promise((r) => setTimeout(r, 300));
+  dir.limpo = await state();
+  await page.click('th[data-sort-key="ramal"] button');
+  dir.ordenadoRamal = await state();
+  await page.click('th[data-sort-key="ramal"] button');
+  dir.ordenadoRamalDesc = await state();
+  await page.type('[data-directory-input]', 'xyz');
+  await new Promise((r) => setTimeout(r, 300));
+  dir.semResultado = await state();
+  await page.screenshot({ path: `${OUT}/ramais-vazio.png` });
+  ['digitando', 'limpo', 'ordenadoRamal', 'ordenadoRamalDesc', 'semResultado'].forEach((k) => { dir[k].visible = `${dir[k].visible.length} linhas: ${dir[k].visible.slice(0, 3).join(', ')}`; });
+
+  fs.writeFileSync(`${OUT}/report.json`, JSON.stringify({ axe: report, consoleErrors: errors, searchFocus: focused, ramais: dir }, null, 2));
   await browser.close();
 })().catch((e) => { console.error(e); process.exit(1); });
