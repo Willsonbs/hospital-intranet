@@ -1,0 +1,57 @@
+name: hospital-intranet
+
+services:
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  joomla:
+    image: joomla:6-php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Instalação automática (feita pela imagem oficial no primeiro start)
+      JOOMLA_DB_HOST: db
+      JOOMLA_DB_NAME: ${DB_NAME}
+      JOOMLA_DB_USER: ${DB_USER}
+      JOOMLA_DB_PASSWORD: ${DB_PASSWORD}
+      JOOMLA_DB_PREFIX: ${DB_PREFIX}
+      JOOMLA_SITE_NAME: ${SITE_NAME}
+      JOOMLA_ADMIN_USER: ${ADMIN_NAME}
+      JOOMLA_ADMIN_USERNAME: ${ADMIN_USERNAME}
+      JOOMLA_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      JOOMLA_ADMIN_EMAIL: ${ADMIN_EMAIL}
+      JOOMLA_SMTP_HOST: mailpit:1025
+    ports:
+      - "${BIND_ADDR:-127.0.0.1}:${HTTP_PORT:-8080}:80"
+    volumes:
+      - joomla_data:/var/www/html
+      # Pacotes gerados por scripts/build.sh e dependências baixadas (idioma)
+      - ./var/packages:/opt/intranet/packages:ro
+
+  # Captura os e-mails enviados pelo Joomla (desenvolvimento)
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "${BIND_ADDR:-127.0.0.1}:${MAIL_UI_PORT:-8025}:8025"
+
+volumes:
+  db_data:
+  joomla_data:
